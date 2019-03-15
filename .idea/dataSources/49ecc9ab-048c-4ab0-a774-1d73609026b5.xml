@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="WorkLogDB">
+  <database-model serializer="dbm" dbms="DERBY" family-id="DERBY" format-version="4.14">
+    <root id="1">
+      <ServerVersion>10.14.2.0</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="APP">
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="NULLID"/>
+    <schema id="4" parent="1" name="SQLJ"/>
+    <schema id="5" parent="1" name="SYS"/>
+    <schema id="6" parent="1" name="SYSCAT"/>
+    <schema id="7" parent="1" name="SYSCS_DIAG"/>
+    <schema id="8" parent="1" name="SYSCS_UTIL"/>
+    <schema id="9" parent="1" name="SYSFUN"/>
+    <schema id="10" parent="1" name="SYSIBM"/>
+    <schema id="11" parent="1" name="SYSPROC"/>
+    <schema id="12" parent="1" name="SYSSTAT"/>
+    <table id="13" parent="2" name="EMPLOYEE"/>
+    <table id="14" parent="2" name="HIBERNATE_SEQUENCES"/>
+    <table id="15" parent="2" name="LOGBOOKENTRY"/>
+    <column id="16" parent="13" name="ID">
+      <Position>1</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="17" parent="13" name="ADDRESS_CITY">
+      <Position>2</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+    </column>
+    <column id="18" parent="13" name="ADDRESS_STREET">
+      <Position>3</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+    </column>
+    <column id="19" parent="13" name="ADDRESS_ZIPCODE">
+      <Position>4</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+    </column>
+    <column id="20" parent="13" name="DATEOFBIRTH">
+      <Position>5</Position>
+      <DataType>DATE|91s</DataType>
+    </column>
+    <column id="21" parent="13" name="FIRSTNAME">
+      <Position>6</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+    </column>
+    <column id="22" parent="13" name="LASTNAME">
+      <Position>7</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+    </column>
+    <index id="23" parent="13" name="SQL190314120016420">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="24" parent="13" name="SQL190314120016420">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="25" parent="14" name="SEQUENCE_NAME">
+      <Position>1</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="14" name="NEXT_VAL">
+      <Position>2</Position>
+      <DataType>BIGINT|-5s</DataType>
+    </column>
+    <index id="27" parent="14" name="SQL190314120016440">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>SEQUENCE_NAME</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="28" parent="14" name="SQL190314120016440">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>SEQUENCE_NAME</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="29" parent="15" name="ID">
+      <Position>1</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="15" name="ACTIVITY">
+      <Position>2</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+    </column>
+    <column id="31" parent="15" name="ENDTIME">
+      <Position>3</Position>
+      <DataType>TIMESTAMP|93s</DataType>
+    </column>
+    <column id="32" parent="15" name="STARTTIME">
+      <Position>4</Position>
+      <DataType>TIMESTAMP|93s</DataType>
+    </column>
+    <column id="33" parent="15" name="EMPLOYEE_ID">
+      <Position>5</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="34" parent="15" name="SQL190314120016470">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="35" parent="15" name="SQL190314120016480">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEE_ID</ColNames>
+    </index>
+    <key id="36" parent="15" name="SQL190314120016470">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="37" parent="15" name="FK375U29UUP72HX3B91FF2BBMIB">
+      <ColNames>EMPLOYEE_ID</ColNames>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>SQL190314115837390</RefKeyName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>
