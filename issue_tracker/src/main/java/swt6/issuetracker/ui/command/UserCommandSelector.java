@@ -22,14 +22,6 @@ public final class UserCommandSelector {
 				return new UpdateEmployeeLastNameCommand();
 			case "updateEmployeeAddress":
 				return new UpdateEmployeeAddressCommand();
-			case "listLogBookEntries":
-				return new ListLogBookEntriesCommand();
-			case "addLogBookEntry":
-				return new AddLogBookEntryCommand();
-			case "removeLogBookEntry":
-				return new RemoveLogBookEntryCommand();
-			case "reassignLogBookEntry":
-				return new ReassignLogBookEntryCommand();
 			case "listProjects":
 				return new ListProjectsCommand();
 			case "findProjectById":
@@ -62,6 +54,20 @@ public final class UserCommandSelector {
 				return new UpdateIssueStateCommand();
 			case "updateIssuePriority":
 				return new UpdateIssuePriorityCommand();
+			case "findLogBookEntryById":
+				return new FindLogBookEntryByIdCommand();
+			case "listLogBookEntriesOfIssue":
+				return new ListLogBookEntriesOfIssueCommand();
+			case "listLogBookEntriesOfEmployee":
+				return new ListLogBookEntriesOfEmployeeCommand();
+			case "addLogBookEntry":
+				return new AddLogBookEntryCommand();
+			case "removeLogBookEntry":
+				return new RemoveLogBookEntryCommand();
+			case "reassignLogBookEntryToIssue":
+				return new ReassignLogBookEntryToIssueCommand();
+			case "reassignLogBookEntryToEmployee":
+				return new ReassignLogBookEntryToEmployeeCommand();
 			default:
 				throw new IllegalArgumentException("Command " + enteredCommand + " is unknown!");
 		}

@@ -11,11 +11,12 @@ import swt6.util.JpaUtil;
 public class IssueTracker {
 	private static final String AVAILABLE_COMMANDS = "Commands: (q)uit, " +
 			"commit, rollback, listEmployees, findEmployeeById, addEmployee, deleteEmployee, updateEmployeeLastName, updateEmployeeAddress, " +
-			"listLogBookEntries, addLogBookEntry, removeLogBookEntry, reassignLogBookEntry, " +
 			"listProjects, findProjectById, addProject, updateProjectName, deleteProject, " +
 			"assignEmployeeToProject, dismissEmployeeFromProject, " +
 			"listIssuesOfProject, listIssuesOfEmployee, addIssue, assignIssueToEmployee, deleteIssue, " +
-			"updateIssueProgress, updateIssueEstimatedTime, updateIssueState, updateIssuePriority";
+			"updateIssueProgress, updateIssueEstimatedTime, updateIssueState, updateIssuePriority" +
+			"findLogBookEntryById, listLogBookEntriesOfIssue, listLogBookEntriesOfEmployee, " +
+			"addLogBookEntry, removeLogBookEntry, reassignLogBookEntryToIssue, reassignLogBookEntryToEmployee";
 
 	public static void main(String[] args) {
 		DaoFactory daoFactory = new DaoFactoryJpa(JpaUtil.getEntityManagerFactory());

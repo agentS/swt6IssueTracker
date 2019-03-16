@@ -199,7 +199,7 @@ public final class Issue {
 				", state=" + this.getState() +
 				", priority=" + this.getPriority() +
 				", estimatedTime=" + this.getEstimatedTime() +
-				", progress=" + this.getProgress() +
+				", progress=" + this.getProgress() + "%" +
 				'}';
 	}
 }

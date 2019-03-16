@@ -5,19 +5,13 @@ import swt6.issuetracker.dal.DaoFactory;
 import swt6.issuetracker.dal.LogBookEntryDao;
 import swt6.issuetracker.domain.LogBookEntry;
 
-import java.util.Optional;
-
-public class RemoveLogBookEntryCommand extends DataCommand {
+public class ListLogBookEntriesOfIssueCommand extends DataCommand {
 	@Override
 	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+		long issueId = this.promptForLong("issue id");
 		LogBookEntryDao logBookEntryDao = daoFactory.getLogBookEntryDao();
-		Optional<LogBookEntry> entry = logBookEntryDao.findById(transaction, this.promptForId());
-		if (entry.isPresent()) {
-			logBookEntryDao.remove(transaction, entry.get());
-			System.out.println("Logbook entry removed.");
-			return TransactionStrategy.COMMIT;
-		} else {
-			System.out.println("Logbook entry does not exist.");
+		for (LogBookEntry entry : logBookEntryDao.findAllByIssueId(transaction, issueId)) {
+			System.out.println(entry);
 		}
 		return TransactionStrategy.NO_COMMIT;
 	}

@@ -125,7 +125,7 @@ public final class LogBookEntry {
 
 	@Override
 	public String toString() {
-		return '#' + this.id + ": " +
+		return "#" + this.id + ": " +
 				"\'" + this.activity + "\': " +
 				"startTime=" + this.startTime.format(DateTimeFormatter.ISO_DATE_TIME) +
 				", endTime=" + this.endTime.format(DateTimeFormatter.ISO_DATE_TIME) +
