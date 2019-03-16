@@ -88,8 +88,8 @@ public final class Project {
 	public String toString() {
 		StringBuilder outputBuilder = new StringBuilder();
 		outputBuilder.append("Project: ")
-				.append("id=").append(this.id)
-				.append(", name='")
+				.append("id=").append(this.getId())
+				.append(", name='").append(this.getName())
 				.append('\'');
 
 		if (this.getEmployees().size() > 0) {

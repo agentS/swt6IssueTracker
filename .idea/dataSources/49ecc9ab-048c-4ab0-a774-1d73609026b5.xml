@@ -17,107 +17,279 @@
     <schema id="10" parent="1" name="SYSIBM"/>
     <schema id="11" parent="1" name="SYSPROC"/>
     <schema id="12" parent="1" name="SYSSTAT"/>
-    <table id="13" parent="2" name="EMPLOYEE"/>
-    <table id="14" parent="2" name="HIBERNATE_SEQUENCES"/>
-    <table id="15" parent="2" name="LOGBOOKENTRY"/>
-    <column id="16" parent="13" name="ID">
+    <table id="13" parent="2" name="ADDRESS"/>
+    <table id="14" parent="2" name="EMPLOYEE"/>
+    <table id="15" parent="2" name="ISSUE"/>
+    <table id="16" parent="2" name="LOGBOOKENTRY"/>
+    <table id="17" parent="2" name="PROJECT"/>
+    <table id="18" parent="2" name="PROJECTEMPLOYEE"/>
+    <column id="19" parent="13" name="CITY">
       <Position>1</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="13" name="STREET">
+      <Position>2</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="21" parent="13" name="ZIPCODE">
+      <Position>3</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="22" parent="13" name="EMPLOYEEID">
+      <Position>4</Position>
       <DataType>BIGINT|-5s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="17" parent="13" name="ADDRESS_CITY">
-      <Position>2</Position>
-      <DataType>VARCHAR(255)|12s</DataType>
+    <index id="23" parent="13" name="SQL190316094630690">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>CITY
+STREET
+ZIPCODE</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="24" parent="13" name="SQL190316095854690">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEEID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="25" parent="13" name="SQL190316094630840">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEEID</ColNames>
+    </index>
+    <key id="26" parent="13" name="SQL190316094630690">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>CITY
+STREET
+ZIPCODE</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="27" parent="13" name="SQL190316095854690">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEEID</ColNames>
+    </key>
+    <foreign-key id="28" parent="13" name="FKDBAXSIFRSMYGDBYDJ53YYPGPG">
+      <ColNames>EMPLOYEEID</ColNames>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>SQL190314120016420</RefKeyName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+    <column id="29" parent="14" name="ID">
+      <Position>1</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DefaultExpression>GENERATED_BY_DEFAULT</DefaultExpression>
     </column>
-    <column id="18" parent="13" name="ADDRESS_STREET">
+    <column id="30" parent="14" name="DATEOFBIRTH">
+      <Position>2</Position>
+      <DataType>DATE|91s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="14" name="FIRSTNAME">
       <Position>3</Position>
       <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="19" parent="13" name="ADDRESS_ZIPCODE">
+    <column id="32" parent="14" name="LASTNAME">
       <Position>4</Position>
       <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="20" parent="13" name="DATEOFBIRTH">
+    <index id="33" parent="14" name="SQL190316094630730">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="34" parent="14" name="SQL190316094630730">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="35" parent="15" name="ID">
+      <Position>1</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DefaultExpression>GENERATED_BY_DEFAULT</DefaultExpression>
+    </column>
+    <column id="36" parent="15" name="ESTIMATEDTIME">
+      <Position>2</Position>
+      <DataType>DOUBLE|8s</DataType>
+    </column>
+    <column id="37" parent="15" name="NAME">
+      <Position>3</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="38" parent="15" name="PRIORITY">
+      <Position>4</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="39" parent="15" name="PROGRESS">
       <Position>5</Position>
-      <DataType>DATE|91s</DataType>
+      <DataType>INTEGER|4s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="21" parent="13" name="FIRSTNAME">
+    <column id="40" parent="15" name="STATE">
       <Position>6</Position>
       <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="22" parent="13" name="LASTNAME">
+    <column id="41" parent="15" name="EMPLOYEEID">
       <Position>7</Position>
-      <DataType>VARCHAR(255)|12s</DataType>
+      <DataType>BIGINT|-5s</DataType>
     </column>
-    <index id="23" parent="13" name="SQL190314120016420">
+    <column id="42" parent="15" name="PROJECTID">
+      <Position>8</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="43" parent="15" name="SQL190316094630750">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="24" parent="13" name="SQL190314120016420">
+    <index id="44" parent="15" name="SQL190316094630850">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEEID</ColNames>
+    </index>
+    <index id="45" parent="15" name="SQL190316094630870">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>PROJECTID</ColNames>
+    </index>
+    <key id="46" parent="15" name="SQL190316094630750">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="25" parent="14" name="SEQUENCE_NAME">
-      <Position>1</Position>
-      <DataType>VARCHAR(255)|12s</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="26" parent="14" name="NEXT_VAL">
-      <Position>2</Position>
-      <DataType>BIGINT|-5s</DataType>
-    </column>
-    <index id="27" parent="14" name="SQL190314120016440">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>SEQUENCE_NAME</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="28" parent="14" name="SQL190314120016440">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>SEQUENCE_NAME</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="29" parent="15" name="ID">
+    <foreign-key id="47" parent="15" name="FKK36C40H4XBG9VHRSCUOUMI83C">
+      <ColNames>EMPLOYEEID</ColNames>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>SQL190314120016420</RefKeyName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+    <foreign-key id="48" parent="15" name="FKA3HT4C9529BEVU36SQCS50LEL">
+      <ColNames>PROJECTID</ColNames>
+      <RefTableName>PROJECT</RefTableName>
+      <RefKeyName>SQL190316094630780</RefKeyName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+    <column id="49" parent="16" name="ID">
       <Position>1</Position>
       <DataType>BIGINT|-5s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="30" parent="15" name="ACTIVITY">
+    <column id="50" parent="16" name="ACTIVITY">
       <Position>2</Position>
       <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="31" parent="15" name="ENDTIME">
+    <column id="51" parent="16" name="ENDTIME">
       <Position>3</Position>
       <DataType>TIMESTAMP|93s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="32" parent="15" name="STARTTIME">
+    <column id="52" parent="16" name="PROJECTPHASE">
       <Position>4</Position>
-      <DataType>TIMESTAMP|93s</DataType>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="33" parent="15" name="EMPLOYEE_ID">
+    <column id="53" parent="16" name="STARTTIME">
       <Position>5</Position>
+      <DataType>TIMESTAMP|93s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="16" name="EMPLOYEE_ID">
+      <Position>6</Position>
       <DataType>BIGINT|-5s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="34" parent="15" name="SQL190314120016470">
+    <index id="55" parent="16" name="SQL190316094630770">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="35" parent="15" name="SQL190314120016480">
+    <index id="56" parent="16" name="SQL190316094630880">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>EMPLOYEE_ID</ColNames>
     </index>
-    <key id="36" parent="15" name="SQL190314120016470">
+    <key id="57" parent="16" name="SQL190316094630770">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="37" parent="15" name="FK375U29UUP72HX3B91FF2BBMIB">
+    <foreign-key id="58" parent="16" name="FKRM5IXF1Y0IUDHT3YEVU4323QJ">
       <ColNames>EMPLOYEE_ID</ColNames>
       <RefTableName>EMPLOYEE</RefTableName>
-      <RefKeyName>SQL190314115837390</RefKeyName>
+      <RefKeyName>SQL190314120016420</RefKeyName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+    <column id="59" parent="17" name="ID">
+      <Position>1</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DefaultExpression>GENERATED_BY_DEFAULT</DefaultExpression>
+    </column>
+    <column id="60" parent="17" name="NAME">
+      <Position>2</Position>
+      <DataType>VARCHAR(255)|12s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="61" parent="17" name="SQL190316094630780">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="62" parent="17" name="SQL190316094630780">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="63" parent="18" name="EMPLOYEEID">
+      <Position>1</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="64" parent="18" name="PROJECTID">
+      <Position>2</Position>
+      <DataType>BIGINT|-5s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="65" parent="18" name="SQL190316094630800">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEEID
+PROJECTID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="66" parent="18" name="SQL190316094630900">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEEID</ColNames>
+    </index>
+    <index id="67" parent="18" name="SQL190316094630890">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>PROJECTID</ColNames>
+    </index>
+    <key id="68" parent="18" name="SQL190316094630800">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMPLOYEEID
+PROJECTID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="69" parent="18" name="FKSC64LV12GPC9YOG95M4S1VEUM">
+      <ColNames>EMPLOYEEID</ColNames>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>SQL190314120016420</RefKeyName>
+      <RefColNames>ID</RefColNames>
+    </foreign-key>
+    <foreign-key id="70" parent="18" name="FKT7G8J8L16F57NMBAAWX09MM6E">
+      <ColNames>PROJECTID</ColNames>
+      <RefTableName>PROJECT</RefTableName>
+      <RefKeyName>SQL190316094630780</RefKeyName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
   </database-model>

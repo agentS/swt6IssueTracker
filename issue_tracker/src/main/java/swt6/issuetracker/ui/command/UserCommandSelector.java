@@ -44,6 +44,24 @@ public final class UserCommandSelector {
 				return new AssignEmployeeToProjectCommand();
 			case "dismissEmployeeFromProject":
 				return new DismissEmployeeFromProjectCommand();
+			case "listIssuesOfProject":
+				return new ListIssuesOfProjectCommand();
+			case "listIssuesOfEmployee":
+				return new ListIssuesOfEmployeeCommand();
+			case "addIssue":
+				return new AddIssueCommand();
+			case "assignIssueToEmployee":
+				return new AssignIssueToEmployeeCommand();
+			case "deleteIssue":
+				return new DeleteIssueCommand();
+			case "updateIssueProgress":
+				return new UpdateIssueProgressCommand();
+			case "updateIssueEstimatedTime":
+				return new UpdateIssueEstimatedTimeCommand();
+			case "updateIssueState":
+				return new UpdateIssueStateCommand();
+			case "updateIssuePriority":
+				return new UpdateIssuePriorityCommand();
 			default:
 				throw new IllegalArgumentException("Command " + enteredCommand + " is unknown!");
 		}

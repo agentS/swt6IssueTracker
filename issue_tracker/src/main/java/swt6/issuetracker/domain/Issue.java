@@ -161,4 +161,16 @@ public final class Issue {
 		}
 		this.setProject(null);
 	}
+
+	@Override
+	public String toString() {
+		return "Issue{" +
+				"id=" + this.getId() +
+				", name='" + this.getName() + '\'' +
+				", state=" + this.getState() +
+				", priority=" + this.getPriority() +
+				", estimatedTime=" + this.getEstimatedTime() +
+				", progress=" + this.getProgress() +
+				'}';
+	}
 }
