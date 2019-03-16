@@ -88,33 +88,4 @@ public class EmployeeDaoJpa implements EmployeeDao {
 		employeeDeleteStatement.setParameter("id", id);
 		return employeeDeleteStatement.executeUpdate() > 0;
 	}
-
-	@Override
-	public List<LogBookEntry> findAllLogBookEntries(DalTransaction transaction, Employee employee) {
-		return null;
-	}
-
-	@Override
-	public void addLogBookEntryToEmployee(DalTransaction transaction, LogBookEntry logBookEntry, Employee employee) {
-		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
-		Employee targetEmployee = entityManager.merge(employee);
-		targetEmployee.addLogbookEntry(logBookEntry);
-		entityManager.merge(logBookEntry);
-	}
-
-	@Override
-	public void removeLogBookEntryFromEmployee(DalTransaction transaction, LogBookEntry logBookEntry, Employee employee) {
-		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
-		Employee targetEmployee = entityManager.merge(employee);
-		targetEmployee.removeLogbookEntry(logBookEntry);
-		entityManager.remove(logBookEntry);
-	}
-
-	@Override
-	public void reassignLogBookEntry(DalTransaction transaction, LogBookEntry logBookEntry, Employee newHolder) {
-		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
-		Employee targetCurrentHolder = entityManager.merge(newHolder);
-		LogBookEntry targetLogBookEntry = entityManager.merge(logBookEntry);
-		targetCurrentHolder.addLogbookEntry(targetLogBookEntry);
-	}
 }

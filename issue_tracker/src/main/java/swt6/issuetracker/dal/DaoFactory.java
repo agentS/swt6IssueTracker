@@ -5,4 +5,5 @@ public interface DaoFactory {
 	EmployeeDao createEmployeeDao();
 	ProjectDao createProjectDao();
 	IssueDao createIssueDao();
+	LogBookEntryDao getLogBookEntryDao();
 }

@@ -11,15 +11,7 @@ import java.util.Optional;
 public class ListLogBookEntriesCommand extends DataCommand {
 	@Override
 	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
-		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
-		Optional<Employee> employeeContainer = employeeDao.findById(transaction, this.promptForLong("employee id"));
-		if (employeeContainer.isPresent()) {
-			for (LogBookEntry logBookEntry : employeeContainer.get().getLogbookEntries()) {
-				System.out.println(logBookEntry);
-			}
-		} else {
-			System.out.println("Employee does not exist.");
-		}
+
 		return TransactionStrategy.NO_COMMIT;
 	}
 }

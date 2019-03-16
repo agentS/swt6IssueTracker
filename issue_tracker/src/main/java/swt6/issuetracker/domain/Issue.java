@@ -1,6 +1,8 @@
 package swt6.issuetracker.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public final class Issue {
@@ -42,6 +44,9 @@ public final class Issue {
 	@ManyToOne(optional = false, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinColumn(name = "projectId")
 	private Project project;
+
+	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+	private Set<LogBookEntry> logBookEntries = new HashSet<>();
 
 	public Issue() {
 	}
@@ -160,6 +165,30 @@ public final class Issue {
 			this.getProject().getIssues().remove(this);
 		}
 		this.setProject(null);
+	}
+
+	public Set<LogBookEntry> getLogBookEntries() {
+		return this.logBookEntries;
+	}
+
+	public void setLogBookEntries(Set<LogBookEntry> logBookEntries) {
+		this.logBookEntries = logBookEntries;
+	}
+
+	public void addLogBookEntry(LogBookEntry entry) {
+		if (entry.getIssue() != null) {
+			entry.getIssue().getLogBookEntries().remove(entry);
+		}
+
+		entry.setIssue(this);
+		this.getLogBookEntries().add(entry);
+	}
+
+	public void removeLogBookEntry(LogBookEntry entry) {
+		if (entry.getIssue() == this) {
+			entry.setIssue(null);
+		}
+		this.getLogBookEntries().remove(entry);
 	}
 
 	@Override

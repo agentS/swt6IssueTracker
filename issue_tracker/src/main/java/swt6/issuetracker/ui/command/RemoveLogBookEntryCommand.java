@@ -15,21 +15,7 @@ public class RemoveLogBookEntryCommand extends DataCommand {
 		Optional<Employee> employeeContainer = employeeDao.findById(transaction, this.promptForLong("employee id"));
 		if (employeeContainer.isPresent()) {
 			long logBookEntryId = this.promptForLong("logbook entry id");
-			Optional<LogBookEntry> logBookEntryContainer = employeeContainer.get().getLogbookEntries()
-					.stream()
-					.filter(entry -> entry.getId() == logBookEntryId)
-					.findFirst();
-			if (logBookEntryContainer.isPresent()) {
-				employeeDao.removeLogBookEntryFromEmployee(
-						transaction,
-						logBookEntryContainer.get(),
-						employeeContainer.get()
-				);
-				System.out.println("Logbook entry deleted.");
-				return TransactionStrategy.COMMIT;
-			} else {
-				System.out.println("Logbook entry does not exist.");
-			}
+			// TODO: add code
 		} else {
 			System.out.println("Employee does not exist.");
 		}

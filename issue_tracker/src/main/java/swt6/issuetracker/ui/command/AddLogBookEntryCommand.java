@@ -18,11 +18,7 @@ public class AddLogBookEntryCommand extends DataCommand {
 		Optional<Employee> employeeContainer = employeeDao.findById(transaction, this.promptForLong("employee id"));
 		if (employeeContainer.isPresent()) {
 			LogBookEntry logBookEntry = this.promptForLogBookEntry();
-			employeeDao.addLogBookEntryToEmployee(
-					transaction,
-					logBookEntry,
-					employeeContainer.get()
-			);
+			// TODO: add code
 			System.out.println("Logbook entry added.");
 			return TransactionStrategy.COMMIT;
 		} else {

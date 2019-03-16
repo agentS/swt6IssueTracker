@@ -32,4 +32,9 @@ public class DaoFactoryJpa implements DaoFactory {
 	public IssueDao createIssueDao() {
 		return new IssueDaoJpa();
 	}
+
+	@Override
+	public LogBookEntryDao getLogBookEntryDao() {
+		return new LogBookEntryDaoJpa();
+	}
 }

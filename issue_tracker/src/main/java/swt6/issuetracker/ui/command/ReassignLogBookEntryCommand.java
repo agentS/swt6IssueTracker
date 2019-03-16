@@ -16,22 +16,7 @@ public class ReassignLogBookEntryCommand extends DataCommand {
 		if (previouslyAssignedEmployee.isPresent()) {
 			Optional<Employee> newlyAssignedEmployee = employeeDao.findById(transaction, this.promptForLong("newly assigned employee ID"));
 			if (newlyAssignedEmployee.isPresent()) {
-				long logBookEntryId = this.promptForLong("logbook entry id");
-				Optional<LogBookEntry> logBookEntry = previouslyAssignedEmployee.get().getLogbookEntries()
-						.stream()
-						.filter(entry -> entry.getId() == logBookEntryId)
-						.findFirst();
-				if (logBookEntry.isPresent()) {
-					employeeDao.reassignLogBookEntry(
-							transaction,
-							logBookEntry.get(),
-							newlyAssignedEmployee.get()
-					);
-					System.out.println("Logbook entry reassigned.");
-					return TransactionStrategy.COMMIT;
-				} else {
-					System.out.println("Logbook entry does not exist.");
-				}
+				// TODO: add code
 			} else {
 				System.out.println("Employee does not exist.");
 			}

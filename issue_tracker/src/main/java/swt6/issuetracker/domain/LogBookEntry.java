@@ -26,6 +26,10 @@ public final class LogBookEntry {
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false)
 	private Employee employee;
 
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false)
+	@JoinColumn(name = "issueId")
+	private Issue issue;
+
 	public LogBookEntry() {
 
 	}
@@ -69,14 +73,6 @@ public final class LogBookEntry {
 		this.endTime = endTime;
 	}
 
-	public ProjectPhase getProjectPhase() {
-		return this.projectPhase;
-	}
-
-	public void setProjectPhase(ProjectPhase projectPhase) {
-		this.projectPhase = projectPhase;
-	}
-
 	public Employee getEmployee() {
 		return this.employee;
 	}
@@ -86,22 +82,45 @@ public final class LogBookEntry {
 	}
 
 	public void attachEmployee(Employee employee) {
-		// if entry is already linked to some employee, remove this link, because do not want to have an entry linked to multiple employees
-		if (this.employee != null) {
-			this.employee.getLogbookEntries().remove(this);
-		}
-
-		if (employee != null) {
-			employee.getLogbookEntries().add(this);
-		}
 		this.setEmployee(employee);
 	}
 
 	public void detachEmployee() {
-		if (this.employee != null) {
-			this.employee.getLogbookEntries().remove(this);
-		}
 		this.setEmployee(null);
+	}
+
+	public ProjectPhase getProjectPhase() {
+		return this.projectPhase;
+	}
+
+	public void setProjectPhase(ProjectPhase projectPhase) {
+		this.projectPhase = projectPhase;
+	}
+
+	public Issue getIssue() {
+		return this.issue;
+	}
+
+	public void setIssue(Issue issue) {
+		this.issue = issue;
+	}
+
+	public void attachIssue(Issue issue) {
+		if (this.getIssue() != null) {
+			this.getIssue().getLogBookEntries().remove(this);
+		}
+
+		if (issue != null) {
+			issue.getLogBookEntries().add(this);
+		}
+		this.setIssue(issue);
+	}
+
+	public void detachIssue() {
+		if (this.getIssue() != null) {
+			this.getIssue().getLogBookEntries().remove(this);
+		}
+		this.setIssue(null);
 	}
 
 	@Override

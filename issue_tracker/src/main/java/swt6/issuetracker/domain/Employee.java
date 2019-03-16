@@ -24,10 +24,6 @@ public final class Employee {
 	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Address address;
 
-	// mappedBy defines the data component of the other side that references to this side
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-	private Set<LogBookEntry> logbookEntries = new HashSet<>();
-
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(
 			name = "ProjectEmployee",
@@ -91,10 +87,6 @@ public final class Employee {
 		this.address = address;
 	}
 
-	public Set<LogBookEntry> getLogbookEntries() {
-		return this.logbookEntries;
-	}
-
 	public void attachAddress(Address address) {
 		if (address.getEmployee() != null) {
 			address.getEmployee().setAddress(null);
@@ -112,29 +104,6 @@ public final class Employee {
 			this.getAddress().setEmployee(null);
 		}
 		this.setAddress(null);
-	}
-
-	public void setLogbookEntries(Set<LogBookEntry> logbookEntries) {
-		this.logbookEntries = logbookEntries;
-	}
-
-	public void addLogbookEntry(LogBookEntry logbookEntry) {
-		// if entry is already linked to some employee, remove this link, because do not want to have an entry linked to multiple employees
-		if (logbookEntry.getEmployee() != null) {
-			logbookEntry.getEmployee().getLogbookEntries().remove(logbookEntry);
-		}
-
-		this.getLogbookEntries().add(logbookEntry);
-		logbookEntry.setEmployee(this);
-	}
-
-	public void removeLogbookEntry(LogBookEntry logbookEntry) {
-		if (this.logbookEntries.contains(logbookEntry)) {
-			this.getLogbookEntries().remove(logbookEntry);
-		}
-		if (logbookEntry.getEmployee() == this) {
-			logbookEntry.setEmployee(null);
-		}
 	}
 
 	public Set<Project> getProjects() {

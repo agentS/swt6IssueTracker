@@ -16,9 +16,4 @@ public interface EmployeeDao {
 	Employee updateAddress(DalTransaction transaction, Employee employee, Address newAddress);
 	void delete(DalTransaction transaction, Employee employee);
 	boolean delete(DalTransaction transaction, long id);
-
-	List<LogBookEntry> findAllLogBookEntries(DalTransaction transaction, Employee employee);
-	void addLogBookEntryToEmployee(DalTransaction transaction, LogBookEntry logBookEntry, Employee employee);
-	void removeLogBookEntryFromEmployee(DalTransaction transaction, LogBookEntry logBookEntry, Employee employee);
-	void reassignLogBookEntry(DalTransaction transaction, LogBookEntry logBookEntry, Employee newHolder);
 }

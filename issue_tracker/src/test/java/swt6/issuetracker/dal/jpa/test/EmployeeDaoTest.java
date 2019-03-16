@@ -57,52 +57,6 @@ public class EmployeeDaoTest {
 					new Address("00815", "Springfield", "1001 Mammon Lane")
 			);
 			entityManager.persist(updatedEmployeeB);
-
-			Employee busyEmployeeA = new Employee(
-					"Waylon Jr", "Smithers",
-					LocalDate.of(1954, 7, 30),
-					new Address("00815", "Springfield", "99 Bachelor Rd")
-			);
-			busyEmployeeA.addLogbookEntry(new LogBookEntry(
-					"Prepare Mr Burn's breakfast",
-					LocalDateTime.of(2019, 3, 14, 6, 0),
-					LocalDateTime.of(2019, 3, 14, 6, 5),
-					ProjectPhase.IMPLEMENTATION
-			));
-			entityManager.persist(busyEmployeeA);
-
-			Employee lazyEmployee = new Employee(
-					"Homer", "Simpson",
-					LocalDate.of(1964, 1, 30),
-					new Address("00815", "Springfield", "742 Evergreen Terrace")
-			);
-			lazyEmployee.addLogbookEntry(new LogBookEntry(
-					"Guard bee during nuclear safety inspection",
-					LocalDateTime.of(2019, 3, 14, 12, 0),
-					LocalDateTime.of(2019, 3, 14, 15, 5),
-					ProjectPhase.IMPLEMENTATION
-			));
-			entityManager.persist(lazyEmployee);
-
-			Employee busyEmployeeC = new Employee(
-					"Lenford", "Leonard",
-					LocalDate.of(1964, 4, 29),
-					new Address("00815", "Springfield", "98 Walnut Street")
-			);
-			busyEmployeeC.addLogbookEntry(new LogBookEntry(
-					"Perform nuclear safety audit",
-					LocalDateTime.of(2019, 3, 14, 9, 0),
-					LocalDateTime.of(2019, 3, 14, 10, 5),
-					ProjectPhase.TESTING
-			));
-			entityManager.persist(busyEmployeeC);
-
-			Employee busyEmployeeD = new Employee(
-					"Carl", "Carlson",
-					LocalDate.of(1964, 4, 29),
-					new Address("00815", "Springfield", "100 Walnut Street")
-			);
-			entityManager.persist(busyEmployeeD);
 		});
 	}
 
@@ -227,76 +181,6 @@ public class EmployeeDaoTest {
 			);
 			assertEquals("666 Waterfront", updatedEmployee.getAddress().getStreet());
 			assertTrue(entityManager.contains(updatedEmployee));
-		});
-	}
-
-	@Test
-	public void testAddLogBookEntry() {
-		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
-			EmployeeDao employeeDao = new EmployeeDaoJpa();
-			DalTransaction transaction = new DalTransactionJpa(entityManager);
-			Employee employee = employeeDao.findAll(transaction).stream()
-					.filter(e -> e.getFirstName().equals("Waylon Jr"))
-					.filter(e -> e.getLastName().equals("Smithers"))
-					.findFirst()
-					.orElseThrow();
-			assertNotNull(employee);
-			final int previousLogBookEntries = employee.getLogbookEntries().size();
-
-			LogBookEntry logBookEntry = new LogBookEntry(
-					"Deliver the report to Mr. Burns",
-					LocalDateTime.of(2019, 3, 14, 6, 7),
-					LocalDateTime.of(2019, 3, 14, 6, 20),
-					ProjectPhase.ANALYSIS
-			);
-			employeeDao.addLogBookEntryToEmployee(transaction, logBookEntry, employee);
-			final int currentLogBookEntries = employee.getLogbookEntries().size();
-			assertEquals((previousLogBookEntries + 1), currentLogBookEntries);
-		});
-	}
-
-	@Test
-	public void testRemoveLogBookEntry() {
-		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
-			EmployeeDao employeeDao = new EmployeeDaoJpa();
-			DalTransaction transaction = new DalTransactionJpa(entityManager);
-			Employee employee = employeeDao.findAll(transaction).stream()
-					.filter(e -> e.getFirstName().equals("Homer"))
-					.filter(e -> e.getLastName().equals("Simpson"))
-					.findFirst()
-					.orElseThrow();
-			assertNotNull(employee);
-			assertEquals(1, employee.getLogbookEntries().size());
-			LogBookEntry logBookEntry = employee.getLogbookEntries().iterator().next();
-
-			employeeDao.removeLogBookEntryFromEmployee(transaction, logBookEntry, employee);
-			assertEquals(0, employee.getLogbookEntries().size());
-		});
-	}
-
-	@Test
-	public void testReassignLogBookEntry() {
-		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
-			EmployeeDao employeeDao = new EmployeeDaoJpa();
-			DalTransaction transaction = new DalTransactionJpa(entityManager);
-
-			Employee previousAssignee = employeeDao.findAll(transaction).stream()
-					.filter(e -> e.getFirstName().equals("Lenford"))
-					.filter(e -> e.getLastName().equals("Leonard"))
-					.findFirst()
-					.orElseThrow();
-			assertEquals(1, previousAssignee.getLogbookEntries().size());
-			Employee newAssignee = employeeDao.findAll(transaction).stream()
-					.filter(e -> e.getFirstName().equals("Carl"))
-					.filter(e -> e.getLastName().equals("Carlson"))
-					.findFirst()
-					.orElseThrow();
-			assertEquals(0, newAssignee.getLogbookEntries().size());
-			LogBookEntry logBookEntry = previousAssignee.getLogbookEntries().iterator().next();
-
-			employeeDao.reassignLogBookEntry(transaction, logBookEntry, newAssignee);
-			assertEquals(0, previousAssignee.getLogbookEntries().size());
-			assertEquals(1, newAssignee.getLogbookEntries().size());
 		});
 	}
 }
