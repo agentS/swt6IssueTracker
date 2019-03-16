@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class RemoveLogBookEntryCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
 		Optional<Employee> employeeContainer = employeeDao.findById(transaction, this.promptForLong("employee id"));
 		if (employeeContainer.isPresent()) {
@@ -26,11 +26,13 @@ public class RemoveLogBookEntryCommand extends DataCommand {
 						employeeContainer.get()
 				);
 				System.out.println("Logbook entry deleted.");
+				return TransactionStrategy.COMMIT;
 			} else {
 				System.out.println("Logbook entry does not exist.");
 			}
 		} else {
 			System.out.println("Employee does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 }

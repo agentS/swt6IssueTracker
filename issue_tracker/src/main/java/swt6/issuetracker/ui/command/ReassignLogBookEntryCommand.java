@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class ReassignLogBookEntryCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
 		Optional<Employee> previouslyAssignedEmployee = employeeDao.findById(transaction, this.promptForLong("previously assigned employee ID"));
 		if (previouslyAssignedEmployee.isPresent()) {
@@ -28,6 +28,7 @@ public class ReassignLogBookEntryCommand extends DataCommand {
 							newlyAssignedEmployee.get()
 					);
 					System.out.println("Logbook entry reassigned.");
+					return TransactionStrategy.COMMIT;
 				} else {
 					System.out.println("Logbook entry does not exist.");
 				}
@@ -37,5 +38,6 @@ public class ReassignLogBookEntryCommand extends DataCommand {
 		} else {
 			System.out.println("Employee does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 }

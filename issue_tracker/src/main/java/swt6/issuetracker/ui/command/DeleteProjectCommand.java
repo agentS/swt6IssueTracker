@@ -9,13 +9,15 @@ import java.util.Optional;
 
 public class DeleteProjectCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		ProjectDao projectDao = daoFactory.createProjectDao();
 		boolean successful = projectDao.delete(transaction, this.promptForId());
 		if (successful) {
 			System.out.println("Project deleted.");
+			return TransactionStrategy.COMMIT;
 		} else {
 			System.out.println("Project does not exist.");
 		}
+		return TransactionStrategy.COMMIT;
 	}
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class AssignEmployeeToProjectCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		ProjectDao projectDao = daoFactory.createProjectDao();
 		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
 
@@ -26,6 +26,7 @@ public class AssignEmployeeToProjectCommand extends DataCommand {
 							project.get()
 					);
 					System.out.printf("Employee %s, %s added to project %s.%n", employee.get().getLastName(), employee.get().getFirstName(), project.get().getName());
+					return TransactionStrategy.COMMIT;
 				} else {
 					System.out.printf("Employee %s, %s is already assigned to the project %s.%n", employee.get().getLastName(), employee.get().getFirstName(), project.get().getName());
 				}
@@ -35,5 +36,6 @@ public class AssignEmployeeToProjectCommand extends DataCommand {
 		} else {
 			System.out.println("Employee does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 }

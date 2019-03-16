@@ -12,7 +12,7 @@ import java.time.format.DateTimeParseException;
 
 public class AddEmployeeCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		String firstName = CommandLineReader.getInstance().promptFor("first name");
 		String lastName = CommandLineReader.getInstance().promptFor("last name");
 		LocalDate dateOfBirth = null;
@@ -38,5 +38,6 @@ public class AddEmployeeCommand extends DataCommand {
 						new Address(postalCode, town, street)
 				)
 		);
+		return TransactionStrategy.COMMIT;
 	}
 }

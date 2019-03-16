@@ -8,9 +8,10 @@ import swt6.issuetracker.ui.CommandLineReader;
 
 public class AddProjectCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		ProjectDao projectDao = daoFactory.createProjectDao();
 		projectDao.add(transaction, this.promptForProject());
+		return TransactionStrategy.COMMIT;
 	}
 
 	private Project promptForProject() {

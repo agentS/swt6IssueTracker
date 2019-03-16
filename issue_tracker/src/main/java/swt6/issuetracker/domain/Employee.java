@@ -21,12 +21,8 @@ public final class Employee {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
-	@Embedded
-	@AttributeOverride(name = "zipCode", column = @Column(name = "address_zipCode"))
-	@AttributeOverride(name = "city", column = @Column(name = "address_city"))
-	@AttributeOverride(name = "street", column = @Column(name = "address_street"))
+	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Address address;
-
 
 	// mappedBy defines the data component of the other side that references to this side
 	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
@@ -51,7 +47,7 @@ public final class Employee {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
-		this.address = address;
+		this.attachAddress(address);
 	}
 
 	public long getId() {
@@ -97,6 +93,25 @@ public final class Employee {
 
 	public Set<LogBookEntry> getLogbookEntries() {
 		return this.logbookEntries;
+	}
+
+	public void attachAddress(Address address) {
+		if (address.getEmployee() != null) {
+			address.getEmployee().setAddress(null);
+		}
+		if (this.getAddress() != null) {
+			this.getAddress().setEmployee(null);
+		}
+
+		address.setEmployee(this);
+		this.setAddress(address);
+	}
+
+	public void detachAddress() {
+		if (this.getAddress() != null) {
+			this.getAddress().setEmployee(null);
+		}
+		this.setAddress(null);
 	}
 
 	public void setLogbookEntries(Set<LogBookEntry> logbookEntries) {

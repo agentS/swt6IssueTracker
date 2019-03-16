@@ -3,6 +3,7 @@ package swt6.issuetracker.dal.jpa;
 import swt6.issuetracker.dal.DalTransaction;
 import swt6.issuetracker.dal.ProjectDao;
 import swt6.issuetracker.domain.Employee;
+import swt6.issuetracker.domain.Issue;
 import swt6.issuetracker.domain.Project;
 
 import javax.persistence.EntityManager;

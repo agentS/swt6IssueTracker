@@ -33,7 +33,7 @@ public class IssueDaoTest {
 			Employee employeeA = new Employee(
 					"Mindy", "Simmons",
 					LocalDate.of(1975, 1, 30),
-					new Address("00815", "Springfield", "742 Evergreen Terrace")
+					new Address("00815", "Springfield", "746 Evergreen Terrace")
 			);
 			entityManager.persist(employeeA);
 

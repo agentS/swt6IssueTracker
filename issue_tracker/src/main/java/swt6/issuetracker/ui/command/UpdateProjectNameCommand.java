@@ -10,15 +10,17 @@ import java.util.Optional;
 
 public class UpdateProjectNameCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		ProjectDao projectDao = daoFactory.createProjectDao();
 		Optional<Project> projectContainer = projectDao.findById(transaction, this.promptForId());
 		if (projectContainer.isPresent()) {
 			projectDao.updateName(transaction, projectContainer.get(), this.promptForName());
 			System.out.println("Project name updated.");
+			return TransactionStrategy.COMMIT;
 		} else {
 			System.out.println("Project does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 
 	private String promptForName() {

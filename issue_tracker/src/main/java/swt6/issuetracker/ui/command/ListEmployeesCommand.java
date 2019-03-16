@@ -7,10 +7,11 @@ import swt6.issuetracker.domain.Employee;
 
 public class ListEmployeesCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
 		for (Employee employee : employeeDao.findAll(transaction)) {
 			System.out.println(employee);
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 }

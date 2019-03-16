@@ -2,10 +2,7 @@ package swt6.issuetracker.dal.jpa;
 
 import swt6.issuetracker.dal.DalTransaction;
 import swt6.issuetracker.dal.EmployeeDao;
-import swt6.issuetracker.domain.Address;
-import swt6.issuetracker.domain.Employee;
-import swt6.issuetracker.domain.LogBookEntry;
-import swt6.issuetracker.domain.Project;
+import swt6.issuetracker.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -53,7 +50,15 @@ public class EmployeeDaoJpa implements EmployeeDao {
 	@Override
 	public Employee updateAddress(DalTransaction transaction, Employee employee, Address newAddress) {
 		Employee updatedEmployee = this.mergeEmployee(transaction, employee);
-		updatedEmployee.setAddress(newAddress);
+		employee = null;
+		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+
+		if (updatedEmployee.getAddress() != null) {
+			entityManager.remove(updatedEmployee.getAddress());
+			entityManager.persist(updatedEmployee);
+		}
+
+		updatedEmployee.attachAddress(newAddress);
 		return updatedEmployee;
 	}
 
@@ -64,16 +69,24 @@ public class EmployeeDaoJpa implements EmployeeDao {
 		for (Project project : employee.getProjects()) {
 			project.removeEmployee(employee);
 		}
+		for (Issue issue : employee.getIssues()) {
+			issue.detachEmployee();
+		}
 
-		entityManager.remove(this.mergeEmployee(transaction, employee));
+		Employee targetEmployee = this.mergeEmployee(transaction, employee);
+		entityManager.remove(targetEmployee.getAddress());
+		entityManager.remove(targetEmployee);
 	}
 
 	@Override
 	public boolean delete(DalTransaction transaction, long id) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
-		Query deleteStatement = entityManager.createQuery("DELETE FROM Employee AS E WHERE E.id = :id");
-		deleteStatement.setParameter("id", id);
-		return deleteStatement.executeUpdate() > 0;
+		Query addressDeleteStatement = entityManager.createQuery("DELETE FROM Address AS A WHERE employee.id = :id");
+		addressDeleteStatement.setParameter("id", id);
+		addressDeleteStatement.executeUpdate();
+		Query employeeDeleteStatement = entityManager.createQuery("DELETE FROM Employee AS E WHERE E.id = :id");
+		employeeDeleteStatement.setParameter("id", id);
+		return employeeDeleteStatement.executeUpdate() > 0;
 	}
 
 	@Override

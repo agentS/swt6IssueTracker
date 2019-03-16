@@ -44,12 +44,19 @@ public class EmployeeDaoTest {
 			);
 			entityManager.persist(formerEmployeeB);
 
-			Employee updatedEmployee = new Employee(
+			Employee updatedEmployeeA = new Employee(
+					"Queenie", "Chicken",
+					LocalDate.of(1985, 04, 01),
+					new Address("00815", "Springfield", "12 Farm Road")
+			);
+			entityManager.persist(updatedEmployeeA);
+
+			Employee updatedEmployeeB = new Employee(
 					"Monty", "Burns",
 					LocalDate.of(1882, 1, 1),
-					new Address("00815", "Springfield", "1000 Mammon Lane")
+					new Address("00815", "Springfield", "1001 Mammon Lane")
 			);
-			entityManager.persist(updatedEmployee);
+			entityManager.persist(updatedEmployeeB);
 
 			Employee busyEmployeeA = new Employee(
 					"Waylon Jr", "Smithers",
@@ -93,7 +100,7 @@ public class EmployeeDaoTest {
 			Employee busyEmployeeD = new Employee(
 					"Carl", "Carlson",
 					LocalDate.of(1964, 4, 29),
-					new Address("00815", "Springfield", "98 Walnut Street")
+					new Address("00815", "Springfield", "100 Walnut Street")
 			);
 			entityManager.persist(busyEmployeeD);
 		});
@@ -191,14 +198,14 @@ public class EmployeeDaoTest {
 			EmployeeDao employeeDao = new EmployeeDaoJpa();
 			DalTransaction transaction = new DalTransactionJpa(entityManager);
 			Employee updatedEmployee = employeeDao.findAll(transaction).stream()
-					.filter(employee -> employee.getFirstName().equals("Monty"))
-					.filter(employee -> employee.getLastName().equals("Burns"))
+					.filter(employee -> employee.getFirstName().equals("Queenie"))
+					.filter(employee -> employee.getLastName().equals("Chicken"))
 					.findFirst()
 					.orElseThrow();
 
-			assertEquals("Burns", updatedEmployee.getLastName());
-			updatedEmployee = employeeDao.updateLastName(transaction, updatedEmployee, "Schicklgruber Burns");
-			assertEquals("Schicklgruber Burns", updatedEmployee.getLastName());
+			assertEquals("Chicken", updatedEmployee.getLastName());
+			updatedEmployee = employeeDao.updateLastName(transaction, updatedEmployee, "Simpson");
+			assertEquals("Simpson", updatedEmployee.getLastName());
 		});
 	}
 
@@ -209,15 +216,17 @@ public class EmployeeDaoTest {
 			DalTransaction transaction = new DalTransactionJpa(entityManager);
 			Employee updatedEmployee = employeeDao.findAll(transaction).stream()
 					.filter(employee -> employee.getFirstName().equals("Monty"))
+					.filter(employee -> employee.getLastName().equals("Burns"))
 					.findFirst()
 					.orElseThrow();
 
-			assertEquals("1000 Mammon Lane", updatedEmployee.getAddress().getStreet());
+			assertEquals("1001 Mammon Lane", updatedEmployee.getAddress().getStreet());
 			updatedEmployee = employeeDao.updateAddress(
 					transaction, updatedEmployee,
-					new Address("00815", "Springfield", "28 Waterfront")
+					new Address("00815", "Springfield", "666 Waterfront")
 			);
-			assertEquals("28 Waterfront", updatedEmployee.getAddress().getStreet());
+			assertEquals("666 Waterfront", updatedEmployee.getAddress().getStreet());
+			assertTrue(entityManager.contains(updatedEmployee));
 		});
 	}
 

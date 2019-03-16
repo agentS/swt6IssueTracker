@@ -9,13 +9,24 @@ import swt6.issuetracker.ui.settings.UIConstants;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-import java.util.Optional;
 
 public abstract class DataCommand implements UserCommand {
+	protected enum TransactionStrategy {
+		COMMIT, ROLLBACK, NO_COMMIT
+	}
+
 	@Override
 	public DalTransaction process(DalTransaction transaction, DaoFactory daoFactory) throws Throwable {
 		if (transaction.isOpen()) {
-			this.processDataCommand(transaction, daoFactory);
+			TransactionStrategy transactionStrategy = this.processDataCommand(transaction, daoFactory);
+			switch (transactionStrategy) {
+				case COMMIT:
+					return new CommitCommand().process(transaction, daoFactory);
+				case ROLLBACK:
+					return new RollbackCommand().process(transaction, daoFactory);
+				default:
+					break;
+			}
 		} else {
 			throw new IllegalStateException("Transaction must be active in order to execute a data command.");
 		}
@@ -23,7 +34,7 @@ public abstract class DataCommand implements UserCommand {
 		return transaction;
 	}
 
-	protected abstract void processDataCommand(DalTransaction transaction, DaoFactory daoFactory);
+	protected abstract TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory);
 
 	protected long promptForId() {
 		return this.promptForLong("id");

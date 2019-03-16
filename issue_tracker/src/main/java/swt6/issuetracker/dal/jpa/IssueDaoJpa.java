@@ -108,6 +108,8 @@ public class IssueDaoJpa implements IssueDao {
 	public void delete(DalTransaction transaction, Issue issue) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
 		Issue targetIssue = entityManager.merge(issue);
+		issue.detachProject();
+		issue.detachEmployee();
 		entityManager.remove(targetIssue);
 	}
 }

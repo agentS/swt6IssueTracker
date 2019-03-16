@@ -129,7 +129,7 @@ public final class Issue {
 		this.setEmployee(employee);
 	}
 
-	public void detachEmployee(Employee employee) {
+	public void detachEmployee() {
 		if (this.getEmployee() != null) {
 			this.getEmployee().getIssues().remove(this);
 		}
@@ -155,7 +155,7 @@ public final class Issue {
 		this.setProject(project);
 	}
 
-	public void detachProject(Project project) {
+	public void detachProject() {
 		if (this.getProject() != null) {
 			this.getProject().getIssues().remove(this);
 		}

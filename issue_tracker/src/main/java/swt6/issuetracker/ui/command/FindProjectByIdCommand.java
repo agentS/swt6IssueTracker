@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class FindProjectByIdCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		ProjectDao projectDao = daoFactory.createProjectDao();
 		Optional<Project> projectContainer = projectDao.findById(transaction, this.promptForId());
 		if (projectContainer.isPresent()) {
@@ -17,5 +17,6 @@ public class FindProjectByIdCommand extends DataCommand {
 		} else {
 			System.out.println("Project does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 }

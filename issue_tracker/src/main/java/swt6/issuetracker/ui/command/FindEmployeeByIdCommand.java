@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class FindEmployeeByIdCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
 		Optional<Employee> employeeContainer = employeeDao.findById(transaction, this.promptForId());
 		if (employeeContainer.isPresent()) {
@@ -17,5 +17,6 @@ public class FindEmployeeByIdCommand extends DataCommand {
 		} else {
 			System.out.println("Employee does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 }

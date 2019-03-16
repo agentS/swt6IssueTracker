@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class ListLogBookEntriesCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
 		Optional<Employee> employeeContainer = employeeDao.findById(transaction, this.promptForLong("employee id"));
 		if (employeeContainer.isPresent()) {
@@ -20,5 +20,6 @@ public class ListLogBookEntriesCommand extends DataCommand {
 		} else {
 			System.out.println("Employee does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 }

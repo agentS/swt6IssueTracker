@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class UpdateEmployeeAddressCommand extends DataCommand {
 	@Override
-	protected void processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
+	protected TransactionStrategy processDataCommand(DalTransaction transaction, DaoFactory daoFactory) {
 		EmployeeDao employeeDao = daoFactory.createEmployeeDao();
 		Optional<Employee> employeeContainer = employeeDao.findById(transaction, this.promptForId());
 		if (employeeContainer.isPresent()) {
@@ -21,9 +21,11 @@ public class UpdateEmployeeAddressCommand extends DataCommand {
 					this.promptForAddress()
 			);
 			System.out.println("Address updated.");
+			return TransactionStrategy.COMMIT;
 		} else {
 			System.out.println("Employee does not exist.");
 		}
+		return TransactionStrategy.NO_COMMIT;
 	}
 
 	private Address promptForAddress() {
