@@ -7,6 +7,8 @@ import swt6.issuetracker.dal.ProjectDao;
 import swt6.issuetracker.domain.Issue;
 import swt6.issuetracker.domain.Project;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ListIssuesOfProjectCommand extends DataCommand {
@@ -18,8 +20,12 @@ public class ListIssuesOfProjectCommand extends DataCommand {
 			System.out.println("Project " + project.get().getName());
 
 			IssueDao issueDao = daoFactory.createIssueDao();
-			for (Issue issue : issueDao.findAllByProjectId(transaction, project.get().getId())) {
-				System.out.println(issue);
+			Map<Issue.IssueState, List<Issue>> results = issueDao.findAllByProjectIdGroupByIssueState(transaction, project.get().getId());
+			for (Issue.IssueState issueState : results.keySet()) {
+				System.out.println(issueState);
+				for (Issue issue : results.get(issueState)) {
+					System.out.println("    " + issue);
+				}
 			}
 		} else {
 			System.out.println("Project does not exist.");

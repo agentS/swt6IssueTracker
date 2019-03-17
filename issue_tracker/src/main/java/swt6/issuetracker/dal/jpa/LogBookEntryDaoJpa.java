@@ -5,12 +5,14 @@ import swt6.issuetracker.dal.LogBookEntryDao;
 import swt6.issuetracker.domain.Employee;
 import swt6.issuetracker.domain.Issue;
 import swt6.issuetracker.domain.LogBookEntry;
+import swt6.issuetracker.domain.ProjectPhase;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class LogBookEntryDaoJpa implements LogBookEntryDao {
 	@Override
@@ -28,18 +30,29 @@ public class LogBookEntryDaoJpa implements LogBookEntryDao {
 	public List<LogBookEntry> findAllByIssueId(DalTransaction transaction, long issueId) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
 		TypedQuery<LogBookEntry> query = entityManager.createQuery(
-				"SELECT L FROM LogBookEntry AS L WHERE L.issue.id = :id",
+				"SELECT L FROM LogBookEntry AS L WHERE L.issue.id = :id ORDER BY L.startTime DESC",
 				LogBookEntry.class
 		);
 		query.setParameter("id", issueId);
 		return query.getResultList();
 	}
 
+	public Map<ProjectPhase, List<LogBookEntry>> findAllByIssueIdGroupByProjectPhase(DalTransaction transaction, long issueId) {
+		List<LogBookEntry> entries = this.findAllByIssueId(transaction, issueId);
+		return entries.stream()
+				.collect(
+						Collectors.groupingBy(
+								LogBookEntry::getProjectPhase,
+								Collectors.toList()
+						)
+				);
+	}
+
 	@Override
 	public List<LogBookEntry> findAllByEmployeeId(DalTransaction transaction, long employeeId) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
 		TypedQuery<LogBookEntry> query = entityManager.createQuery(
-				"SELECT L FROM LogBookEntry AS L WHERE L.employee.id = :id",
+				"SELECT L FROM LogBookEntry AS L WHERE L.employee.id = :id ORDER BY L.startTime DESC",
 				LogBookEntry.class
 		);
 		query.setParameter("id", employeeId);

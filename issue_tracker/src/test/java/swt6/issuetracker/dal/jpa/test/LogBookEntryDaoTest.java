@@ -9,6 +9,7 @@ import swt6.issuetracker.domain.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -147,6 +148,34 @@ public class LogBookEntryDaoTest {
 
 			LogBookEntryDao logBookEntryDao = new LogBookEntryDaoJpa();
 			List<LogBookEntry> entries = logBookEntryDao.findAllByIssueId(transaction, issue.getId());
+			assertNotNull(entries);
+			assertTrue(entries.size() > 0);
+		});
+	}
+
+	@Test
+	public void testFindAllByIssueIdGroupByProjectPhase() {
+		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
+			DalTransaction transaction = new DalTransactionJpa(entityManager);
+
+			ProjectDao projectDao = new ProjectDaoJpa();
+			Project project = projectDao.findAll(transaction).stream()
+					.filter(p -> p.getName().equals("Build rocket"))
+					.findFirst()
+					.orElseThrow();
+
+			IssueDao issueDao = new IssueDaoJpa();
+			Issue issue = issueDao.findAllByProjectId(transaction, project.getId())
+					.stream()
+					.filter(i -> i.getName().equals("Gather requirements"))
+					.findFirst()
+					.orElseThrow();
+
+			LogBookEntryDao logBookEntryDao = new LogBookEntryDaoJpa();
+			Map<ProjectPhase, List<LogBookEntry>> entries = logBookEntryDao.findAllByIssueIdGroupByProjectPhase(
+					transaction,
+					issue.getId()
+			);
 			assertNotNull(entries);
 			assertTrue(entries.size() > 0);
 		});

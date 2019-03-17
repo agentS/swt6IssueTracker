@@ -15,6 +15,7 @@ import swt6.issuetracker.domain.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -115,6 +116,28 @@ public class IssueDaoTest {
 	}
 
 	@Test
+	public void testFindAllByEmployeeIdGroupByIssueState() {
+		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
+			DalTransaction transaction = new DalTransactionJpa(entityManager);
+
+			EmployeeDao employeeDao = new EmployeeDaoJpa();
+			Employee assignee = employeeDao.findAll(transaction).stream()
+					.filter(employee -> employee.getFirstName().equals("Mindy"))
+					.filter(employee -> employee.getLastName().equals("Simmons"))
+					.findFirst()
+					.orElseThrow();
+
+			IssueDao issueDao = new IssueDaoJpa();
+			Map<Issue.IssueState, List<Issue>> issues = issueDao.findAllByEmployeeIdGroupByIssueState(
+					transaction,
+					assignee.getId()
+			);
+			assertNotNull(issues);
+			assertTrue(issues.size() > 0);
+		});
+	}
+
+	@Test
 	public void testFindAllByProject() {
 		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
 			DalTransaction transaction = new DalTransactionJpa(entityManager);
@@ -127,6 +150,27 @@ public class IssueDaoTest {
 
 			IssueDao issueDao = new IssueDaoJpa();
 			List<Issue> issues = issueDao.findAllByProjectId(transaction, project.getId());
+			assertNotNull(issues);
+			assertTrue(issues.size() > 0);
+		});
+	}
+
+	@Test
+	public void testFindAllByProjectGroupByIssueState() {
+		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
+			DalTransaction transaction = new DalTransactionJpa(entityManager);
+
+			ProjectDao projectDao = new ProjectDaoJpa();
+			Project project = projectDao.findAll(transaction).stream()
+					.filter(p -> p.getName().equals("New reactor control console"))
+					.findFirst()
+					.orElseThrow();
+
+			IssueDao issueDao = new IssueDaoJpa();
+			Map<Issue.IssueState, List<Issue>> issues = issueDao.findAllByProjectIdGroupByIssueState(
+					transaction,
+					project.getId()
+			);
 			assertNotNull(issues);
 			assertTrue(issues.size() > 0);
 		});

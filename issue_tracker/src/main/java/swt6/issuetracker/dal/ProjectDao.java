@@ -1,7 +1,6 @@
 package swt6.issuetracker.dal;
 
-import swt6.issuetracker.domain.Employee;
-import swt6.issuetracker.domain.Project;
+import swt6.issuetracker.domain.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +15,6 @@ public interface ProjectDao {
 
 	void assignEmployeeToProject(DalTransaction transaction, Employee employee, Project project);
 	void dismissEmployeeFromProject(DalTransaction transaction, Employee employee, Project project);
+
+	List<Pair<ProjectPhase, Double>> calculateWorkingTimePerProjectPhase(DalTransaction transaction, Project project);
 }

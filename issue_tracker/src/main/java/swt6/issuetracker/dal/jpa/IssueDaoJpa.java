@@ -2,32 +2,55 @@ package swt6.issuetracker.dal.jpa;
 
 import swt6.issuetracker.dal.DalTransaction;
 import swt6.issuetracker.dal.IssueDao;
-import swt6.issuetracker.domain.Employee;
-import swt6.issuetracker.domain.Issue;
-import swt6.issuetracker.domain.Project;
+import swt6.issuetracker.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.criteria.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class IssueDaoJpa implements IssueDao {
 	@Override
 	public List<Issue> findAllByEmployeeId(DalTransaction transaction, long employeeId) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
-		TypedQuery<Issue> query =  entityManager
-				.createQuery("SELECT I FROM Issue AS I WHERE I.employee.id = :id ORDER BY I.id", Issue.class);
+		TypedQuery<Issue> query = entityManager.createQuery(
+				"SELECT I FROM Issue AS I WHERE I.employee.id = :id ORDER BY I.id DESC",
+				Issue.class
+		);
 		query.setParameter("id", employeeId);
 		return query.getResultList();
 	}
 
 	@Override
+	public Map<Issue.IssueState, List<Issue>> findAllByEmployeeIdGroupByIssueState(DalTransaction transaction, long employeeId) {
+		return this.findAllByEmployeeId(transaction, employeeId)
+				.stream()
+				.collect(Collectors.groupingBy(
+						Issue::getState,
+						Collectors.toList()
+				));
+	}
+
+	@Override
 	public List<Issue> findAllByProjectId(DalTransaction transaction, long projectId) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
-		TypedQuery<Issue> query = entityManager
-				.createQuery("SELECT I FROM Issue AS I WHERE I.project.id = :id ORDER BY I.id", Issue.class);
+		TypedQuery<Issue> query = entityManager.createQuery(
+				"SELECT I FROM Issue AS I WHERE I.project.id = :id ORDER BY I.id DESC",
+				Issue.class
+		);
 		query.setParameter("id", projectId);
 		return query.getResultList();
+	}
+
+	@Override
+	public Map<Issue.IssueState, List<Issue>> findAllByProjectIdGroupByIssueState(DalTransaction transaction, long projectId) {
+		return this.findAllByProjectId(transaction, projectId)
+				.stream()
+				.collect(Collectors.groupingBy(
+						Issue::getState,
+						Collectors.toList()
+				));
 	}
 
 	@Override
@@ -111,5 +134,122 @@ public class IssueDaoJpa implements IssueDao {
 		issue.detachProject();
 		issue.detachEmployee();
 		entityManager.remove(targetIssue);
+	}
+
+	@Override
+	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByEmployeeIdGroupByIssueState(
+			DalTransaction transaction,
+			long employeeId
+	) {
+		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+		Root<Employee> subQueryRoot = criteriaQuery.from(Employee.class);
+		Join<Employee, Issue> issueJoin = subQueryRoot.join("issues");
+		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		criteriaQuery
+				.multiselect(
+						issueJoin.get("state").alias("state"),
+						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime")).alias("workTime"),
+						issueJoin.get("estimatedTime").alias("estimatedTime")
+				)
+				.where(criteriaBuilder.equal(subQueryRoot.get("id"), employeeId))
+				//.where(criteriaBuilder.equal(logBookEntryJoin.get("employee").get("id"), employeeId))
+				.groupBy(issueJoin.get("state"), issueJoin.get("id"), issueJoin.get("estimatedTime"));
+
+		List<Triple<Issue.IssueState, Double, Double>> issueTimes = new ArrayList<>();
+		for (Object[] row : entityManager.createQuery(criteriaQuery).getResultList()) {
+			issueTimes.add(new Triple<>(
+					((Issue.IssueState) row[0]),
+					((Double) row[1]),
+					((Double) row[2])
+			));
+		}
+		// subqueries in from clauses are not supported by JPA: https://stackoverflow.com/questions/7269010/jpa-hibernate-subquery-in-from-clause
+		return reduceByIssueState(issueTimes);
+	}
+
+	private static Map<Issue.IssueState, Pair<Double, Double>> reduceByIssueState(
+			List<Triple<Issue.IssueState, Double, Double>> issueTimes
+	) {
+		Map<Issue.IssueState, Pair<Double, Double>> result = new HashMap<>();
+		for (Triple<Issue.IssueState, Double, Double> processedIssueTimes : issueTimes) {
+			if (result.containsKey(processedIssueTimes.getFirst())) {
+				Pair<Double, Double> modifiedIssueTimes = result.get(processedIssueTimes.getFirst());
+				modifiedIssueTimes.setFirst(modifiedIssueTimes.getFirst() + processedIssueTimes.getSecond());
+				modifiedIssueTimes.setSecond(modifiedIssueTimes.getSecond() + processedIssueTimes.getThird());
+			} else {
+				result.put(
+						processedIssueTimes.getFirst(),
+						new Pair<>(processedIssueTimes.getSecond(), processedIssueTimes.getThird())
+				);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByProjectIdGroupByIssueState(
+			DalTransaction transaction,
+			long projectId
+	) {
+		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+		Root<Project> root = criteriaQuery.from(Project.class);
+		Join<Project, Issue> issueJoin = root.join("issues");
+		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		criteriaQuery
+				.multiselect(
+						issueJoin.get("state").alias("state"),
+						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime")).alias("workTime"),
+						issueJoin.get("estimatedTime").alias("estimatedTime")
+				)
+				.where(criteriaBuilder.equal(root.get("id"), projectId))
+				.groupBy(issueJoin.get("state"), issueJoin.get("id"), issueJoin.get("estimatedTime"));
+
+		List<Triple<Issue.IssueState, Double, Double>> issueTimes = new ArrayList<>();
+		for (Object[] row : entityManager.createQuery(criteriaQuery).getResultList()) {
+			issueTimes.add(new Triple<>(
+					((Issue.IssueState) row[0]),
+					((Double) row[2]),
+					((Double) row[1])
+			));
+		}
+		// subqueries in from clauses are not supported by JPA: https://stackoverflow.com/questions/7269010/jpa-hibernate-subquery-in-from-clause
+		return reduceByIssueState(issueTimes);
+	}
+
+	@Override
+	public List<Triple<Issue.IssueState, Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
+			DalTransaction transaction,
+			long employeeId
+	) {
+		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+		Root<Employee> root = criteriaQuery.from(Employee.class);
+		Join<Employee, Issue> issueJoin = root.join("issues");
+		Join<Employee, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		criteriaQuery
+				.multiselect(
+						issueJoin.get("state"),
+						criteriaBuilder.count(issueJoin.get("id")),
+						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime"))
+				)
+				.where(criteriaBuilder.equal(root.get("id"), employeeId))
+				.groupBy(issueJoin.get("state"));
+
+		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery);
+		return query.getResultStream()
+				.map(row -> new Triple<>(
+						((Issue.IssueState) row[0]),
+						((Long) row[1]),
+						((Double) row[2])
+				))
+				.collect(Collectors.toList());
 	}
 }
