@@ -110,7 +110,7 @@ public class LogBookEntryDaoTest {
 	public void testFindById() {
 		doInJPA(JpaTestingUtil::getEntityManagerFactory, entityManager -> {
 			LogBookEntryDao logBookEntryDao = new LogBookEntryDaoJpa();
-			Optional<LogBookEntry> entry = logBookEntryDao.findById(new DalTransactionJpa(entityManager), 1);
+			Optional<LogBookEntry> entry = logBookEntryDao.findById(new DalTransactionJpa(entityManager), 3);
 			assertNotNull(entry);
 			assertTrue(entry.isPresent());
 			assertNotNull(entry.get());

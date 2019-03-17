@@ -6,11 +6,10 @@ import swt6.issuetracker.dal.DalTransaction;
 import swt6.issuetracker.dal.ProjectDao;
 import swt6.issuetracker.dal.jpa.DalTransactionJpa;
 import swt6.issuetracker.dal.jpa.ProjectDaoJpa;
-import swt6.issuetracker.domain.Address;
-import swt6.issuetracker.domain.Employee;
-import swt6.issuetracker.domain.Project;
+import swt6.issuetracker.domain.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +25,29 @@ public class ProjectDaoTest {
 
 			Project finishedProjectA = new Project("WETR");
 			entityManager.persist(finishedProjectA);
+			Employee employeeAssignedToFinishedProject = new Employee(
+					"Strawberry", "Darryl",
+					LocalDate.of(1962, 3, 12),
+					new Address("00815", "Springfield", "645 Evergreen Terrace")
+			);
+			finishedProjectA.addEmployee(employeeAssignedToFinishedProject);
+			entityManager.persist(employeeAssignedToFinishedProject);
+			Issue issueOfFinihsedProject = new Issue(
+					"JDBC exercise",
+					Issue.IssueState.CLOSED, Issue.IssuePriority.CRITICAL,
+					100, 20
+			);
+			finishedProjectA.addIssue(issueOfFinihsedProject);
+			entityManager.persist(issueOfFinihsedProject);
+			LogBookEntry logBookEntryOfFinishedProject = new LogBookEntry(
+					"Create database structure",
+					LocalDateTime.of(2018, 5, 24, 16, 00),
+					LocalDateTime.of(2018, 5, 24, 19, 00),
+					ProjectPhase.DESIGN
+			);
+			logBookEntryOfFinishedProject.attachIssue(issueOfFinihsedProject);
+			logBookEntryOfFinishedProject.attachEmployee(employeeAssignedToFinishedProject);
+			entityManager.persist(logBookEntryOfFinishedProject);
 
 			Project finishedProjectB = new Project("COMPLETE");
 			entityManager.persist(finishedProjectB);

@@ -73,6 +73,8 @@ public class EmployeeDaoJpa implements EmployeeDao {
 			issue.detachEmployee();
 		}
 
+		this.deleteAssociatedLogBookEntries(transaction, employee.getId());
+
 		Employee targetEmployee = this.mergeEmployee(transaction, employee);
 		entityManager.remove(targetEmployee.getAddress());
 		entityManager.remove(targetEmployee);
@@ -84,8 +86,18 @@ public class EmployeeDaoJpa implements EmployeeDao {
 		Query addressDeleteStatement = entityManager.createQuery("DELETE FROM Address AS A WHERE employee.id = :id");
 		addressDeleteStatement.setParameter("id", id);
 		addressDeleteStatement.executeUpdate();
+
+		this.deleteAssociatedLogBookEntries(transaction, id);
+
 		Query employeeDeleteStatement = entityManager.createQuery("DELETE FROM Employee AS E WHERE E.id = :id");
 		employeeDeleteStatement.setParameter("id", id);
 		return employeeDeleteStatement.executeUpdate() > 0;
+	}
+
+	private void deleteAssociatedLogBookEntries(DalTransaction transaction, long employeeId) {
+		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		Query deleteStatement = entityManager.createQuery("DELETE FROM LogBookEntry AS L WHERE L.employee.id = :id");
+		deleteStatement.setParameter("id", employeeId);
+		deleteStatement.executeUpdate();
 	}
 }

@@ -2,19 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="919e0990-53b9-4ec7-97a3-b8df7dfbc136" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/FindLogBookEntryByIdCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ListLogBookEntriesOfIssueCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryToIssueCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/49ecc9ab-048c-4ab0-a774-1d73609026b5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/49ecc9ab-048c-4ab0-a774-1d73609026b5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/IssueTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/IssueTracker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Issue.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Issue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/LogBookEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/LogBookEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/AddLogBookEntryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/AddLogBookEntryCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ListLogBookEntriesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ListLogBookEntriesOfEmployeeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryToEmployeeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/RemoveLogBookEntryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/RemoveLogBookEntryCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/UserCommandSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/UserCommandSelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/EmployeeDaoJpa.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/EmployeeDaoJpa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/EmployeeDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/EmployeeDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/IssueDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/IssueDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/LogBookEntryDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/LogBookEntryDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/ProjectDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/ProjectDaoTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -52,27 +46,27 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryToEmployeeCommand.java">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/LogBookEntry.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="564">
-              <caret line="31" column="63" lean-forward="true" selection-start-line="31" selection-start-column="63" selection-end-line="31" selection-end-column="63" />
+            <state relative-caret-position="528">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1572#1573#0" expanded="true" />
+                <element signature="e#1599#1600#0" expanded="true" />
+                <element signature="e#1727#1728#0" expanded="true" />
+                <element signature="e#1760#1761#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryToIssueCommand.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/IssueDaoTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="25" column="36" lean-forward="true" selection-start-line="25" selection-start-column="36" selection-end-line="28" selection-end-column="50" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="396">
+              <caret line="62" column="21" selection-start-line="62" selection-start-column="21" selection-end-line="62" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -90,12 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>add(</find>
-      <find>Homer</find>
-      <find>Simmons</find>
-      <find>.findByD</find>
-      <find>findA</find>
-      <find>testFindById</find>
       <find>testFindBy</find>
       <find>id:</find>
       <find>&quot;&quot;</find>
@@ -105,7 +93,6 @@
       <find>issue</find>
       <find>detach</find>
       <find>Address</find>
-      <find>delete</find>
       <find>remove</find>
       <find>DELETE</find>
       <find>.remove</find>
@@ -120,6 +107,13 @@
       <find>promptForPer</find>
       <find>testAddLo</find>
       <find>addLogBo</find>
+      <find>de</find>
+      <find>formerEmployeeB</find>
+      <find>Canary M</find>
+      <find>@Oneto</find>
+      <find>testDelete</find>
+      <find>delete</find>
+      <find>WETR</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -128,8 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/IssueDaoJpa.java" />
-        <option value="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/IssueDaoTest.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/ProjectDaoJpa.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Address.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/resources/META-INF/persistence.xml" />
@@ -157,16 +149,12 @@
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/UpdateIssueEstimatedTimeCommand.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/UpdateIssueStateCommand.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/UpdateIssuePriorityCommand.java" />
-        <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Employee.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/DaoFactory.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/DaoFactoryJpa.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ListLogBookEntriesCommand.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/EmployeeDao.java" />
-        <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/EmployeeDaoJpa.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryCommand.java" />
-        <option value="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/EmployeeDaoTest.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/LogBookEntryDao.java" />
-        <option value="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/LogBookEntryDaoTest.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/LogBookEntryDaoJpa.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/IssueTracker.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/AddLogBookEntryCommand.java" />
@@ -174,11 +162,17 @@
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ListLogBookEntriesOfEmployeeCommand.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ListLogBookEntriesOfIssueCommand.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/FindLogBookEntryByIdCommand.java" />
-        <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/LogBookEntry.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/RemoveLogBookEntryCommand.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Issue.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryToIssueCommand.java" />
         <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryToEmployeeCommand.java" />
+        <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Employee.java" />
+        <option value="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/EmployeeDaoTest.java" />
+        <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/LogBookEntry.java" />
+        <option value="$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/EmployeeDaoJpa.java" />
+        <option value="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/LogBookEntryDaoTest.java" />
+        <option value="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/ProjectDaoTest.java" />
+        <option value="$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/IssueDaoTest.java" />
       </list>
     </option>
   </component>
@@ -292,29 +286,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="swt6" type="462c0819:PsiDirectoryNode" />
-              <item name="issuetracker" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="orm_projects" type="b2602c69:ProjectViewProjectNode" />
-              <item name="orm_projects" type="462c0819:PsiDirectoryNode" />
-              <item name="issue_tracker" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="swt6" type="462c0819:PsiDirectoryNode" />
-              <item name="issuetracker" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="command" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="orm_projects" type="b2602c69:ProjectViewProjectNode" />
-              <item name="orm_projects" type="462c0819:PsiDirectoryNode" />
-              <item name="issue_tracker" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="swt6" type="462c0819:PsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -413,7 +384,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.IssueTracker">
+  <component name="RunManager" selected="Maven.IssueTracker tests">
     <configuration name="EmployeeManager" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="swt6.orm.simple.hibernate.EmployeeManager" />
       <module name="intro_orm" />
@@ -596,7 +567,8 @@
       <workItem from="1552673633957" duration="4386000" />
       <workItem from="1552725226165" duration="9588000" />
       <workItem from="1552753586867" duration="3837000" />
-      <workItem from="1552758938898" duration="2518000" />
+      <workItem from="1552758938898" duration="2667000" />
+      <workItem from="1552815203293" duration="2657000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1552661444921</created>
@@ -626,11 +598,18 @@
       <option name="project" value="LOCAL" />
       <updated>1552756814148</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Migrate log book entry management UI commands">
+      <created>1552761599072</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1552761599072</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95974000" />
+    <option name="totallyTimeSpent" value="98780000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -645,7 +624,7 @@
     <frame x="-2" y="0" width="2564" height="1386" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31139648" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3154093" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Persistence" order="2" side_tool="true" />
       <window_info id="Designer" order="3" />
@@ -654,7 +633,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32970712" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2739496" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.2739496" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -684,30 +663,10 @@
     <MESSAGE value="Enhance automatic transaction management" />
     <MESSAGE value="Add issue management commands" />
     <MESSAGE value="Migrate log book entry DAL" />
-    <option name="LAST_COMMIT_MESSAGE" value="Migrate log book entry DAL" />
+    <MESSAGE value="Migrate log book entry management UI commands" />
+    <option name="LAST_COMMIT_MESSAGE" value="Migrate log book entry management UI commands" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Address.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="82" selection-start-line="22" selection-start-column="82" selection-end-line="22" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/resources/META-INF/persistence.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="46" column="60" selection-start-line="46" selection-start-column="60" selection-end-line="46" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/javax/persistence/javax.persistence-api/2.2/javax.persistence-api-2.2.jar!/javax/persistence/OneToOne.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="19" column="12" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/AddEmployeeCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="58">
@@ -955,13 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Employee.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/DaoFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -1005,26 +957,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/EmployeeDaoTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="184" column="5" selection-start-line="184" selection-start-column="5" selection-end-line="184" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/EmployeeDaoJpa.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="83" column="47" lean-forward="true" selection-start-line="83" selection-start-column="47" selection-end-line="83" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/IssueDaoJpa.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="554">
@@ -1049,16 +981,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="718">
           <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/LogBookEntryDaoTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="846">
-          <caret line="318" selection-start-line="318" selection-end-line="318" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1122,19 +1044,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/LogBookEntry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="127" column="18" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="18" />
-          <folding>
-            <element signature="e#1572#1573#0" expanded="true" />
-            <element signature="e#1599#1600#0" expanded="true" />
-            <element signature="e#1727#1728#0" expanded="true" />
-            <element signature="e#1760#1761#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/RemoveLogBookEntryCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
@@ -1174,11 +1083,86 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/ui/command/ReassignLogBookEntryToEmployeeCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="31" column="63" lean-forward="true" selection-start-line="31" selection-start-column="63" selection-end-line="31" selection-end-column="63" />
+        <state>
+          <caret lean-forward="true" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/Employee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="536">
+          <caret line="34" column="63" selection-start-line="34" selection-start-column="63" selection-end-line="34" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/DalTransactionJpa.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+          <folding>
+            <element signature="e#535#536#0" expanded="true" />
+            <element signature="e#579#580#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/EmployeeDaoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="137" column="51" selection-start-line="137" selection-start-column="51" selection-end-line="137" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/LogBookEntryDaoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="35" column="14" lean-forward="true" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/dal/jpa/EmployeeDaoJpa.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="68" column="56" lean-forward="true" selection-start-line="68" selection-start-column="56" selection-end-line="68" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/ProjectDaoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="121" column="57" selection-start-line="121" selection-start-column="53" selection-end-line="121" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/main/java/swt6/issuetracker/domain/LogBookEntry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#1572#1573#0" expanded="true" />
+            <element signature="e#1599#1600#0" expanded="true" />
+            <element signature="e#1727#1728#0" expanded="true" />
+            <element signature="e#1760#1761#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/issue_tracker/src/test/java/swt6/issuetracker/dal/jpa/test/IssueDaoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="62" column="21" selection-start-line="62" selection-start-column="21" selection-end-line="62" selection-end-column="21" />
         </state>
       </provider>
     </entry>

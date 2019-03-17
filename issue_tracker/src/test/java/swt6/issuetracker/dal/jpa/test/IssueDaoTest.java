@@ -10,12 +10,10 @@ import swt6.issuetracker.dal.jpa.DalTransactionJpa;
 import swt6.issuetracker.dal.jpa.EmployeeDaoJpa;
 import swt6.issuetracker.dal.jpa.IssueDaoJpa;
 import swt6.issuetracker.dal.jpa.ProjectDaoJpa;
-import swt6.issuetracker.domain.Address;
-import swt6.issuetracker.domain.Employee;
-import swt6.issuetracker.domain.Issue;
-import swt6.issuetracker.domain.Project;
+import swt6.issuetracker.domain.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,7 +58,17 @@ public class IssueDaoTest {
 					20, 120
 			);
 			deletedIssue.attachProject(project);
+			deletedIssue.attachEmployee(employeeA);
 			entityManager.persist(deletedIssue);
+			LogBookEntry logBookEntryOfDeletedIssue = new LogBookEntry(
+					"Find a replacement",
+					LocalDateTime.of(2019, 3, 15, 8, 0),
+					LocalDateTime.of(2019, 3, 15, 8, 30),
+					ProjectPhase.DESIGN
+			);
+			logBookEntryOfDeletedIssue.attachIssue(deletedIssue);
+			logBookEntryOfDeletedIssue.attachEmployee(employeeA);
+			entityManager.persist(logBookEntryOfDeletedIssue);
 		});
 	}
 

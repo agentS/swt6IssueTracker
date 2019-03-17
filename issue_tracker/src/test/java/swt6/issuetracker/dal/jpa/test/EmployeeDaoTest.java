@@ -6,10 +6,7 @@ import swt6.issuetracker.dal.DalTransaction;
 import swt6.issuetracker.dal.EmployeeDao;
 import swt6.issuetracker.dal.jpa.DalTransactionJpa;
 import swt6.issuetracker.dal.jpa.EmployeeDaoJpa;
-import swt6.issuetracker.domain.Address;
-import swt6.issuetracker.domain.Employee;
-import swt6.issuetracker.domain.LogBookEntry;
-import swt6.issuetracker.domain.ProjectPhase;
+import swt6.issuetracker.domain.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,6 +40,26 @@ public class EmployeeDaoTest {
 					new Address("00815", "Springfield", "1 Nuclear Way")
 			);
 			entityManager.persist(formerEmployeeB);
+			Project projectAssignedToFormerEmployee = new Project("Improve tax evasion strategies");
+			projectAssignedToFormerEmployee.addEmployee(formerEmployeeB);
+			entityManager.persist(projectAssignedToFormerEmployee);
+			Issue issueAssignedToFormerEmployee = new Issue(
+					"Analyze tax code",
+					Issue.IssueState.OPEN, Issue.IssuePriority.HIGH,
+					30, 20
+			);
+			issueAssignedToFormerEmployee.attachProject(projectAssignedToFormerEmployee);
+			issueAssignedToFormerEmployee.attachEmployee(formerEmployeeB);
+			entityManager.persist(issueAssignedToFormerEmployee);
+			LogBookEntry logBookEntryAssignedToFormerEmployee = new LogBookEntry(
+					"Buy current edition of the tax code book",
+					LocalDateTime.of(2019, 3, 15, 13, 00),
+					LocalDateTime.of(2019, 3, 15, 13, 30),
+					ProjectPhase.ANALYSIS
+			);
+			logBookEntryAssignedToFormerEmployee.attachIssue(issueAssignedToFormerEmployee);
+			logBookEntryAssignedToFormerEmployee.attachEmployee(formerEmployeeB);
+			entityManager.persist(logBookEntryAssignedToFormerEmployee);
 
 			Employee updatedEmployeeA = new Employee(
 					"Queenie", "Chicken",
