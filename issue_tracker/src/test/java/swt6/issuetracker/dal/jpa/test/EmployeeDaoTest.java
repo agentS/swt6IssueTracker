@@ -197,7 +197,6 @@ public class EmployeeDaoTest {
 					new Address("00815", "Springfield", "666 Waterfront")
 			);
 			assertEquals("666 Waterfront", updatedEmployee.getAddress().getStreet());
-			assertTrue(entityManager.contains(updatedEmployee));
 		});
 	}
 }

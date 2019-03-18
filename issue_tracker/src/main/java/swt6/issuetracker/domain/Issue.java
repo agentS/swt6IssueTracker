@@ -45,7 +45,7 @@ public final class Issue {
 	@JoinColumn(name = "projectId")
 	private Project project;
 
-	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<LogBookEntry> logBookEntries = new HashSet<>();
 
 	public Issue() {

@@ -50,12 +50,10 @@ public class EmployeeDaoJpa implements EmployeeDao {
 	@Override
 	public Employee updateAddress(DalTransaction transaction, Employee employee, Address newAddress) {
 		Employee updatedEmployee = this.mergeEmployee(transaction, employee);
-		employee = null;
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
 
 		if (updatedEmployee.getAddress() != null) {
 			entityManager.remove(updatedEmployee.getAddress());
-			entityManager.persist(updatedEmployee);
 		}
 
 		updatedEmployee.attachAddress(newAddress);
@@ -76,7 +74,7 @@ public class EmployeeDaoJpa implements EmployeeDao {
 		this.deleteAssociatedLogBookEntries(transaction, employee.getId());
 
 		Employee targetEmployee = this.mergeEmployee(transaction, employee);
-		entityManager.remove(targetEmployee.getAddress());
+		targetEmployee.setAddress(null);
 		entityManager.remove(targetEmployee);
 	}
 

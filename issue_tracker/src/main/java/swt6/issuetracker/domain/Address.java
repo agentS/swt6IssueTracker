@@ -20,7 +20,7 @@ public final class Address implements Serializable {
 	@Column(name = "street", insertable = false, updatable = false)
 	private String street;
 
-	@OneToOne(optional = false, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToOne(optional = false, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, orphanRemoval = true)
 	@JoinColumn(name = "employeeId")
 	private Employee employee;
 

@@ -16,7 +16,7 @@ public final class Project {
 	@ManyToMany(mappedBy = "projects", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Set<Employee> employees = new HashSet<>();
 
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Issue> issues = new HashSet<>();
 
 	public Project() {

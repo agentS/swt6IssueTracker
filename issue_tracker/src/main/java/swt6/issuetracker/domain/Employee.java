@@ -32,7 +32,7 @@ public final class Employee {
 	)
 	private Set<Project> projects = new HashSet<>();
 
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "employee", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Set<Issue> issues = new HashSet<>();
 
 	// classes persisted with Hibernate must have a default constructor
