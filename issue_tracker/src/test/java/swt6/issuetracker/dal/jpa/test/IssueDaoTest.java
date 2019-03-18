@@ -109,7 +109,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			List<Issue> issues = issueDao.findAllByEmployeeId(transaction, assignee.getId());
+			List<Issue> issues = issueDao.findAllByEmployee(transaction, assignee);
 			assertNotNull(issues);
 			assertTrue(issues.size() > 0);
 		});
@@ -128,9 +128,9 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Map<Issue.IssueState, List<Issue>> issues = issueDao.findAllByEmployeeIdGroupByIssueState(
+			Map<Issue.IssueState, List<Issue>> issues = issueDao.findAllByEmployeeGroupByIssueState(
 					transaction,
-					assignee.getId()
+					assignee
 			);
 			assertNotNull(issues);
 			assertTrue(issues.size() > 0);
@@ -149,7 +149,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			List<Issue> issues = issueDao.findAllByProjectId(transaction, project.getId());
+			List<Issue> issues = issueDao.findAllByProject(transaction, project);
 			assertNotNull(issues);
 			assertTrue(issues.size() > 0);
 		});
@@ -167,9 +167,9 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Map<Issue.IssueState, List<Issue>> issues = issueDao.findAllByProjectIdGroupByIssueState(
+			Map<Issue.IssueState, List<Issue>> issues = issueDao.findAllByProjectGroupByIssueState(
 					transaction,
-					project.getId()
+					project
 			);
 			assertNotNull(issues);
 			assertTrue(issues.size() > 0);
@@ -246,7 +246,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId()).stream()
+			Issue issue = issueDao.findAllByProject(transaction, project).stream()
 					.filter(i -> Objects.equals(i.getName(), "Tempt Homer Simpson"))
 					.findFirst()
 					.orElseThrow();
@@ -276,7 +276,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId()).stream()
+			Issue issue = issueDao.findAllByProject(transaction, project).stream()
 					.filter(i -> Objects.equals(i.getName(), "Tempt Homer Simpson"))
 					.findFirst()
 					.orElseThrow();
@@ -300,7 +300,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId()).stream()
+			Issue issue = issueDao.findAllByProject(transaction, project).stream()
 					.filter(i -> Objects.equals(i.getName(), "Tempt Homer Simpson"))
 					.findFirst()
 					.orElseThrow();
@@ -324,7 +324,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId()).stream()
+			Issue issue = issueDao.findAllByProject(transaction, project).stream()
 					.filter(i -> Objects.equals(i.getName(), "Tempt Homer Simpson"))
 					.findFirst()
 					.orElseThrow();
@@ -348,7 +348,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId()).stream()
+			Issue issue = issueDao.findAllByProject(transaction, project).stream()
 					.filter(i -> Objects.equals(i.getName(), "Tempt Homer Simpson"))
 					.findFirst()
 					.orElseThrow();
@@ -372,7 +372,7 @@ public class IssueDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId()).stream()
+			Issue issue = issueDao.findAllByProject(transaction, project).stream()
 					.filter(i -> Objects.equals(i.getName(), "Have Smithers take a vacation"))
 					.findFirst()
 					.orElseThrow();

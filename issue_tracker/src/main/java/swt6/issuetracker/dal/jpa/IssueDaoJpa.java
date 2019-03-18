@@ -12,19 +12,26 @@ import java.util.stream.Collectors;
 
 public class IssueDaoJpa implements IssueDao {
 	@Override
-	public List<Issue> findAllByEmployeeId(DalTransaction transaction, long employeeId) {
+	public List<Issue> findAllByEmployee(DalTransaction transaction, Employee employee) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Issue> criteriaQuery = criteriaBuilder.createQuery(Issue.class);
+		Root<Issue> root = criteriaQuery.from(Issue.class);
+		ParameterExpression<Employee> employeeParameter = criteriaBuilder.parameter(Employee.class);
 		TypedQuery<Issue> query = entityManager.createQuery(
-				"SELECT I FROM Issue AS I WHERE I.employee.id = :id ORDER BY I.id DESC",
-				Issue.class
+				criteriaQuery
+						.select(root)
+						.where(criteriaBuilder.equal(root.get(Issue_.employee), employeeParameter))
+						.orderBy(criteriaBuilder.desc(root.get(Issue_.id)))
 		);
-		query.setParameter("id", employeeId);
+		query.setParameter(employeeParameter, employee);
 		return query.getResultList();
 	}
 
 	@Override
-	public Map<Issue.IssueState, List<Issue>> findAllByEmployeeIdGroupByIssueState(DalTransaction transaction, long employeeId) {
-		return this.findAllByEmployeeId(transaction, employeeId)
+	public Map<Issue.IssueState, List<Issue>> findAllByEmployeeGroupByIssueState(DalTransaction transaction, Employee employee) {
+		return this.findAllByEmployee(transaction, employee)
 				.stream()
 				.collect(Collectors.groupingBy(
 						Issue::getState,
@@ -33,19 +40,27 @@ public class IssueDaoJpa implements IssueDao {
 	}
 
 	@Override
-	public List<Issue> findAllByProjectId(DalTransaction transaction, long projectId) {
+	public List<Issue> findAllByProject(DalTransaction transaction, Project project) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Issue> criteriaQuery = criteriaBuilder.createQuery(Issue.class);
+		Root<Issue> root = criteriaQuery.from(Issue.class);
+		ParameterExpression<Project> projectParameter = criteriaBuilder.parameter(Project.class);
+
 		TypedQuery<Issue> query = entityManager.createQuery(
-				"SELECT I FROM Issue AS I WHERE I.project.id = :id ORDER BY I.id DESC",
-				Issue.class
+				criteriaQuery
+						.select(root)
+						.where(criteriaBuilder.equal(root.get(Issue_.project), projectParameter))
+						.orderBy(criteriaBuilder.desc(root.get(Issue_.id)))
 		);
-		query.setParameter("id", projectId);
+		query.setParameter(projectParameter, project);
 		return query.getResultList();
 	}
 
 	@Override
-	public Map<Issue.IssueState, List<Issue>> findAllByProjectIdGroupByIssueState(DalTransaction transaction, long projectId) {
-		return this.findAllByProjectId(transaction, projectId)
+	public Map<Issue.IssueState, List<Issue>> findAllByProjectGroupByIssueState(DalTransaction transaction, Project project) {
+		return this.findAllByProject(transaction, project)
 				.stream()
 				.collect(Collectors.groupingBy(
 						Issue::getState,
@@ -139,27 +154,30 @@ public class IssueDaoJpa implements IssueDao {
 	@Override
 	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByEmployeeIdGroupByIssueState(
 			DalTransaction transaction,
-			long employeeId
+			Employee employee
 	) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
 		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
-		Root<Employee> subQueryRoot = criteriaQuery.from(Employee.class);
-		Join<Employee, Issue> issueJoin = subQueryRoot.join("issues");
-		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		Root<Employee> root = criteriaQuery.from(Employee.class);
+		Join<Employee, Issue> issueJoin = root.join(Employee_.issues);
+		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join(Issue_.logBookEntries);
+		ParameterExpression<Employee> employeeParameter = criteriaBuilder.parameter(Employee.class);
 		criteriaQuery
 				.multiselect(
-						issueJoin.get("state").alias("state"),
-						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime")).alias("workTime"),
-						issueJoin.get("estimatedTime").alias("estimatedTime")
+						issueJoin.get(Issue_.state),
+						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME)),
+						issueJoin.get(Issue_.estimatedTime)
 				)
-				.where(criteriaBuilder.equal(subQueryRoot.get("id"), employeeId))
-				.where(criteriaBuilder.equal(logBookEntryJoin.get("employee").get("id"), employeeId))
-				.groupBy(issueJoin.get("state"), issueJoin.get("id"), issueJoin.get("estimatedTime"));
+				.where(criteriaBuilder.equal(root.get(Employee_.id), employeeParameter))
+				.where(criteriaBuilder.equal(logBookEntryJoin.get(LogBookEntry_.employee), employeeParameter))
+				.groupBy(issueJoin.get(Issue_.state), issueJoin.get(Issue_.id), issueJoin.get(Issue_.estimatedTime));
 
 		List<Triple<Issue.IssueState, Double, Double>> issueTimes = new ArrayList<>();
-		for (Object[] row : entityManager.createQuery(criteriaQuery).getResultList()) {
+		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery)
+				.setParameter(employeeParameter, employee);
+		for (Object[] row : query.getResultList()) {
 			issueTimes.add(new Triple<>(
 					((Issue.IssueState) row[0]),
 					((Double) row[1]),
@@ -192,26 +210,30 @@ public class IssueDaoJpa implements IssueDao {
 	@Override
 	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByProjectIdGroupByIssueState(
 			DalTransaction transaction,
-			long projectId
+			Project project
 	) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
 		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 		Root<Project> root = criteriaQuery.from(Project.class);
-		Join<Project, Issue> issueJoin = root.join("issues");
-		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		Join<Project, Issue> issueJoin = root.join(Project_.issues);
+		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join(Issue_.logBookEntries);
+		ParameterExpression<Project> projectParameter = criteriaBuilder.parameter(Project.class);
 		criteriaQuery
 				.multiselect(
-						issueJoin.get("state").alias("state"),
-						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime")).alias("workTime"),
-						issueJoin.get("estimatedTime").alias("estimatedTime")
+						issueJoin.get(Issue_.state),
+						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME)),
+						issueJoin.get(Issue_.ESTIMATED_TIME)
 				)
-				.where(criteriaBuilder.equal(root.get("id"), projectId))
-				.groupBy(issueJoin.get("state"), issueJoin.get("id"), issueJoin.get("estimatedTime"));
+				.where(criteriaBuilder.equal(root, projectParameter))
+				.groupBy(issueJoin.get(Issue_.state), issueJoin.get(Issue_.id), issueJoin.get(Issue_.estimatedTime));
 
 		List<Triple<Issue.IssueState, Double, Double>> issueTimes = new ArrayList<>();
-		for (Object[] row : entityManager.createQuery(criteriaQuery).getResultList()) {
+		TypedQuery<Object[]> query = entityManager
+				.createQuery(criteriaQuery)
+				.setParameter(projectParameter, project);
+		for (Object[] row : query.getResultList()) {
 			issueTimes.add(new Triple<>(
 					((Issue.IssueState) row[0]),
 					((Double) row[2]),
@@ -225,26 +247,28 @@ public class IssueDaoJpa implements IssueDao {
 	@Override
 	public Map<Issue.IssueState, Pair<Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
 			DalTransaction transaction,
-			long employeeId
+			Employee employee
 	) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
 		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 		Root<Employee> root = criteriaQuery.from(Employee.class);
-		Join<Employee, Issue> issueJoin = root.join("issues");
-		Join<Employee, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		Join<Employee, Issue> issueJoin = root.join(Employee_.issues);
+		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join(Issue_.logBookEntries);
+		ParameterExpression<Employee> employeeParameter = criteriaBuilder.parameter(Employee.class);
 		criteriaQuery
 				.multiselect(
-						issueJoin.get("state"),
-						criteriaBuilder.count(issueJoin.get("id")),
-						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime"))
+						issueJoin.get(Issue_.state),
+						criteriaBuilder.count(issueJoin.get(Issue_.id)),
+						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME))
 				)
-				.where(criteriaBuilder.equal(root.get("id"), employeeId))
-				.where(criteriaBuilder.equal(logBookEntryJoin.get("employee").get("id"), employeeId))
-				.groupBy(issueJoin.get("state"));
+				.where(criteriaBuilder.equal(root, employeeParameter))
+				.where(criteriaBuilder.equal(logBookEntryJoin.get(LogBookEntry_.employee), employeeParameter))
+				.groupBy(issueJoin.get(Issue_.state));
 
-		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery);
+		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery)
+				.setParameter(employeeParameter, employee);
 		return query.getResultStream()
 				.map(row -> new Pair<>(
 						((Issue.IssueState) row[0]),
@@ -266,13 +290,13 @@ public class IssueDaoJpa implements IssueDao {
 
 		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 		Root<Project> root = criteriaQuery.from(Project.class);
-		ParameterExpression<Long> projectIdParameter = criteriaBuilder.parameter(Long.class, "projectId");
-		Join<Project, Issue> issueJoin = root.join("issues");
-		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		ParameterExpression<Project> projectParameter = criteriaBuilder.parameter(Project.class);
+		Join<Project, Issue> issueJoin = root.join(Project_.issues);
+		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join(Issue_.logBookEntries);
 		criteriaQuery
 				.multiselect(
-						logBookEntryJoin.get("projectPhase"),
-						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime"))
+						logBookEntryJoin.get(LogBookEntry_.projectPhase),
+						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME))
 						/*
 						criteriaBuilder.sum(
 								// watch the idiots discussing: https://stackoverflow.com/questions/22412234/using-timestampdiff-with-jpa-criteria-query-and-hibernate-as-the-provider
@@ -285,11 +309,11 @@ public class IssueDaoJpa implements IssueDao {
 								)
 						)*/
 				)
-				.where(criteriaBuilder.equal(root.get("id"), projectIdParameter))
-				.groupBy(logBookEntryJoin.get("projectPhase"));
+				.where(criteriaBuilder.equal(root, projectParameter))
+				.groupBy(logBookEntryJoin.get(LogBookEntry_.projectPhase));
 
 		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery);
-		query.setParameter("projectId", project.getId());
+		query.setParameter(projectParameter, project);
 		return query.getResultStream()
 				.map(row -> new Pair<>(
 						((ProjectPhase) row[0]),

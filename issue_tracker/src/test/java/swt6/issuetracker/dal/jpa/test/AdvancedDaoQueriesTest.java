@@ -142,7 +142,7 @@ public class AdvancedDaoQueriesTest {
 			IssueDao issueDao = new IssueDaoJpa();
 			Map<Issue.IssueState, Pair<Double, Double>> issueTimes = issueDao.calculateWorkingTimeAndEstimatedTimeByEmployeeIdGroupByIssueState(
 					transaction,
-					employee.getId()
+					employee
 			);
 			assertNotNull(issueTimes);
 			assertEquals(2, issueTimes.size());
@@ -166,7 +166,7 @@ public class AdvancedDaoQueriesTest {
 			IssueDao issueDao = new IssueDaoJpa();
 			Map<Issue.IssueState, Pair<Double, Double>> issueTimes = issueDao.calculateWorkingTimeAndEstimatedTimeByProjectIdGroupByIssueState(
 					transaction,
-					project.getId()
+					project
 			);
 			assertNotNull(issueTimes);
 			assertEquals(3, issueTimes.size());
@@ -192,7 +192,7 @@ public class AdvancedDaoQueriesTest {
 			IssueDao issueDao = new IssueDaoJpa();
 			var workingTimes = issueDao.calculateWorkingTimeByEmployeeIdGroupedByIssueState(
 					transaction,
-					employee.getId()
+					employee
 			);
 			assertNotNull(workingTimes);
 			System.out.println(workingTimes.keySet());

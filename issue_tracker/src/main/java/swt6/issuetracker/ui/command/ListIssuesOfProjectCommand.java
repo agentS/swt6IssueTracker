@@ -20,7 +20,7 @@ public class ListIssuesOfProjectCommand extends DataCommand {
 			System.out.println("Project " + project.get().getName());
 
 			IssueDao issueDao = daoFactory.createIssueDao();
-			Map<Issue.IssueState, List<Issue>> results = issueDao.findAllByProjectIdGroupByIssueState(transaction, project.get().getId());
+			Map<Issue.IssueState, List<Issue>> results = issueDao.findAllByProjectGroupByIssueState(transaction, project.get());
 			for (Issue.IssueState issueState : results.keySet()) {
 				System.out.println(issueState);
 				for (Issue issue : results.get(issueState)) {

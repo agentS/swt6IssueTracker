@@ -140,14 +140,14 @@ public class LogBookEntryDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId())
+			Issue issue = issueDao.findAllByProject(transaction, project)
 					.stream()
 					.filter(i -> i.getName().equals("Gather requirements"))
 					.findFirst()
 					.orElseThrow();
 
 			LogBookEntryDao logBookEntryDao = new LogBookEntryDaoJpa();
-			List<LogBookEntry> entries = logBookEntryDao.findAllByIssueId(transaction, issue.getId());
+			List<LogBookEntry> entries = logBookEntryDao.findAllByIssue(transaction, issue);
 			assertNotNull(entries);
 			assertTrue(entries.size() > 0);
 		});
@@ -165,16 +165,16 @@ public class LogBookEntryDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId())
+			Issue issue = issueDao.findAllByProject(transaction, project)
 					.stream()
 					.filter(i -> i.getName().equals("Gather requirements"))
 					.findFirst()
 					.orElseThrow();
 
 			LogBookEntryDao logBookEntryDao = new LogBookEntryDaoJpa();
-			Map<ProjectPhase, List<LogBookEntry>> entries = logBookEntryDao.findAllByIssueIdGroupByProjectPhase(
+			Map<ProjectPhase, List<LogBookEntry>> entries = logBookEntryDao.findAllByIssueGroupByProjectPhase(
 					transaction,
-					issue.getId()
+					issue
 			);
 			assertNotNull(entries);
 			assertTrue(entries.size() > 0);
@@ -194,7 +194,7 @@ public class LogBookEntryDaoTest {
 			assertNotNull(employee);
 
 			LogBookEntryDao logBookEntryDao = new LogBookEntryDaoJpa();
-			List<LogBookEntry> entries = logBookEntryDao.findAllByEmployeeId(transaction, employee.getId());
+			List<LogBookEntry> entries = logBookEntryDao.findAllByEmployee(transaction, employee);
 			assertNotNull(entries);
 			assertTrue(entries.size() > 0);
 		});
@@ -218,7 +218,7 @@ public class LogBookEntryDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue issue = issueDao.findAllByProjectId(transaction, project.getId())
+			Issue issue = issueDao.findAllByProject(transaction, project)
 					.stream()
 					.filter(i -> i.getName().equals("Gather requirements"))
 					.findFirst()
@@ -250,7 +250,7 @@ public class LogBookEntryDaoTest {
 			assertNotNull(employee);
 
 			LogBookEntryDao logBookEntryDao = new LogBookEntryDaoJpa();
-			LogBookEntry logBookEntry = logBookEntryDao.findAllByEmployeeId(transaction, employee.getId())
+			LogBookEntry logBookEntry = logBookEntryDao.findAllByEmployee(transaction, employee)
 					.stream()
 					.filter(l -> l.getActivity().equals("Buy new Malibu Stacey doll"))
 					.findFirst()
@@ -275,7 +275,7 @@ public class LogBookEntryDaoTest {
 					.findFirst()
 					.orElseThrow();
 			int entryCountPreviousAssigneeBeforeOperation =
-					logBookEntryDao.findAllByEmployeeId(transaction, previousAssignee.getId()).size();
+					logBookEntryDao.findAllByEmployee(transaction, previousAssignee).size();
 			assertEquals(1, entryCountPreviousAssigneeBeforeOperation);
 			Employee newAssignee = employeeDao.findAll(transaction).stream()
 					.filter(e -> e.getFirstName().equals("Carl"))
@@ -283,11 +283,11 @@ public class LogBookEntryDaoTest {
 					.findFirst()
 					.orElseThrow();
 			int entryCountCurrentAssigneeBeforeOperation =
-					logBookEntryDao.findAllByEmployeeId(transaction, newAssignee.getId()).size();
+					logBookEntryDao.findAllByEmployee(transaction, newAssignee).size();
 			assertEquals(0, entryCountCurrentAssigneeBeforeOperation);
 
 
-			LogBookEntry logBookEntry = logBookEntryDao.findAllByEmployeeId(transaction, previousAssignee.getId())
+			LogBookEntry logBookEntry = logBookEntryDao.findAllByEmployee(transaction, previousAssignee)
 					.stream()
 					.filter(l -> l.getActivity().equals("Calculate waste barrel capacity"))
 					.findFirst()
@@ -295,10 +295,10 @@ public class LogBookEntryDaoTest {
 			logBookEntryDao.reassignToEmployee(transaction, logBookEntry, newAssignee);
 
 			int entryCountPreviousAssigneeAfterOperation =
-					logBookEntryDao.findAllByEmployeeId(transaction, previousAssignee.getId()).size();
+					logBookEntryDao.findAllByEmployee(transaction, previousAssignee).size();
 			assertEquals(0, entryCountPreviousAssigneeAfterOperation);
 			int entryCountCurrentAssigneeAfterOperation =
-					logBookEntryDao.findAllByEmployeeId(transaction, newAssignee.getId()).size();
+					logBookEntryDao.findAllByEmployee(transaction, newAssignee).size();
 			assertEquals(1, entryCountCurrentAssigneeAfterOperation);
 		});
 	}
@@ -317,25 +317,25 @@ public class LogBookEntryDaoTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Issue previousIssue = issueDao.findAllByProjectId(transaction, project.getId())
+			Issue previousIssue = issueDao.findAllByProject(transaction, project)
 					.stream()
 					.filter(i -> i.getName().equals("Test ramp"))
 					.findFirst()
 					.orElseThrow();
 			int entryCountPreviousAssigneeBeforeOperation =
-					logBookEntryDao.findAllByIssueId(transaction, previousIssue.getId()).size();
+					logBookEntryDao.findAllByIssue(transaction, previousIssue).size();
 			assertEquals(1, entryCountPreviousAssigneeBeforeOperation);
-			Issue newIssue = issueDao.findAllByProjectId(transaction, project.getId())
+			Issue newIssue = issueDao.findAllByProject(transaction, project)
 					.stream()
 					.filter(i -> i.getName().equals("Build ramp"))
 					.findFirst()
 					.orElseThrow();
 			int entryCountCurrentAssigneeBeforeOperation =
-					logBookEntryDao.findAllByIssueId(transaction, newIssue.getId()).size();
+					logBookEntryDao.findAllByIssue(transaction, newIssue).size();
 			assertEquals(0, entryCountCurrentAssigneeBeforeOperation);
 
 
-			LogBookEntry logBookEntry = logBookEntryDao.findAllByIssueId(transaction, previousIssue.getId())
+			LogBookEntry logBookEntry = logBookEntryDao.findAllByIssue(transaction, previousIssue)
 					.stream()
 					.filter(l -> l.getActivity().equals("Negotiate with concrete supplier"))
 					.findFirst()
@@ -343,10 +343,10 @@ public class LogBookEntryDaoTest {
 			logBookEntryDao.reassignToIssue(transaction, logBookEntry, newIssue);
 
 			int entryCountPreviousAssigneeAfterOperation =
-					logBookEntryDao.findAllByIssueId(transaction, previousIssue.getId()).size();
+					logBookEntryDao.findAllByIssue(transaction, previousIssue).size();
 			assertEquals(0, entryCountPreviousAssigneeAfterOperation);
 			int entryCountCurrentAssigneeAfterOperation =
-					logBookEntryDao.findAllByIssueId(transaction, newIssue.getId()).size();
+					logBookEntryDao.findAllByIssue(transaction, newIssue).size();
 			assertEquals(1, entryCountCurrentAssigneeAfterOperation);
 		});
 	}

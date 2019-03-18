@@ -2,13 +2,11 @@ package swt6.issuetracker.dal.jpa;
 
 import swt6.issuetracker.dal.DalTransaction;
 import swt6.issuetracker.dal.LogBookEntryDao;
-import swt6.issuetracker.domain.Employee;
-import swt6.issuetracker.domain.Issue;
-import swt6.issuetracker.domain.LogBookEntry;
-import swt6.issuetracker.domain.ProjectPhase;
+import swt6.issuetracker.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,18 +25,25 @@ public class LogBookEntryDaoJpa implements LogBookEntryDao {
 	}
 
 	@Override
-	public List<LogBookEntry> findAllByIssueId(DalTransaction transaction, long issueId) {
+	public List<LogBookEntry> findAllByIssue(DalTransaction transaction, Issue issue) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<LogBookEntry> criteriaQuery = criteriaBuilder.createQuery(LogBookEntry.class);
+		Root<LogBookEntry> root = criteriaQuery.from(LogBookEntry.class);
+		ParameterExpression<Issue> issueParameter = criteriaBuilder.parameter(Issue.class);
 		TypedQuery<LogBookEntry> query = entityManager.createQuery(
-				"SELECT L FROM LogBookEntry AS L WHERE L.issue.id = :id ORDER BY L.startTime DESC",
-				LogBookEntry.class
+				criteriaQuery
+						.select(root)
+						.where(criteriaBuilder.equal(root.get(LogBookEntry_.issue), issueParameter))
+						.orderBy(criteriaBuilder.desc(root.get(LogBookEntry_.endTime)))
 		);
-		query.setParameter("id", issueId);
+		query.setParameter(issueParameter, issue);
 		return query.getResultList();
 	}
 
-	public Map<ProjectPhase, List<LogBookEntry>> findAllByIssueIdGroupByProjectPhase(DalTransaction transaction, long issueId) {
-		List<LogBookEntry> entries = this.findAllByIssueId(transaction, issueId);
+	public Map<ProjectPhase, List<LogBookEntry>> findAllByIssueGroupByProjectPhase(DalTransaction transaction, Issue issue) {
+		List<LogBookEntry> entries = this.findAllByIssue(transaction, issue);
 		return entries.stream()
 				.collect(
 						Collectors.groupingBy(
@@ -49,13 +54,21 @@ public class LogBookEntryDaoJpa implements LogBookEntryDao {
 	}
 
 	@Override
-	public List<LogBookEntry> findAllByEmployeeId(DalTransaction transaction, long employeeId) {
+	public List<LogBookEntry> findAllByEmployee(DalTransaction transaction, Employee employee) {
 		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<LogBookEntry> criteriaQuery = criteriaBuilder.createQuery(LogBookEntry.class);
+		Root<LogBookEntry> root = criteriaQuery.from(LogBookEntry.class);
+		ParameterExpression<Employee> employeeParameter = criteriaBuilder.parameter(Employee.class);
+
 		TypedQuery<LogBookEntry> query = entityManager.createQuery(
-				"SELECT L FROM LogBookEntry AS L WHERE L.employee.id = :id ORDER BY L.startTime DESC",
-				LogBookEntry.class
+				criteriaQuery
+						.select(root)
+						.where(criteriaBuilder.equal(root.get(LogBookEntry_.employee), employeeParameter))
+						.orderBy(criteriaBuilder.desc(root.get(LogBookEntry_.endTime)))
 		);
-		query.setParameter("id", employeeId);
+		query.setParameter(employeeParameter, employee);
 		return query.getResultList();
 	}
 

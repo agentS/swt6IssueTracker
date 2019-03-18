@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeDao {
-
 	List<Employee> findAll(DalTransaction transaction);
 	Optional<Employee> findById(DalTransaction transaction, long id);
 	Employee add(DalTransaction transaction, Employee employee);

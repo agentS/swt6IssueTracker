@@ -19,7 +19,8 @@ public class ListIssuesOfEmployeeCommand extends DataCommand {
 		if (employee.isPresent()) {
 			IssueDao issueDao = daoFactory.createIssueDao();
 			System.out.printf("Employee %s, %s:%n", employee.get().getLastName(), employee.get().getFirstName());
-			Map<Issue.IssueState, List<Issue>> results = issueDao.findAllByEmployeeIdGroupByIssueState(transaction, employee.get().getId());
+			Map<Issue.IssueState, List<Issue>> results =
+					issueDao.findAllByEmployeeGroupByIssueState(transaction, employee.get());
 			for (Issue.IssueState issueState : results.keySet()) {
 				System.out.println(issueState);
 				for (Issue issue : results.get(issueState)) {
