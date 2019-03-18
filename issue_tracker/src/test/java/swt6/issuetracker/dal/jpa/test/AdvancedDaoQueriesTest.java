@@ -14,7 +14,6 @@ import swt6.issuetracker.domain.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -196,6 +195,7 @@ public class AdvancedDaoQueriesTest {
 					employee.getId()
 			);
 			assertNotNull(workingTimes);
+			System.out.println(workingTimes.keySet());
 			assertEquals(2, workingTimes.size());
 			assertEquals(1, workingTimes.get(Issue.IssueState.OPEN).getFirst().longValue());
 			assertEquals(8d, workingTimes.get(Issue.IssueState.OPEN).getSecond(), 0);

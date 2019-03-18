@@ -155,7 +155,7 @@ public class IssueDaoJpa implements IssueDao {
 						issueJoin.get("estimatedTime").alias("estimatedTime")
 				)
 				.where(criteriaBuilder.equal(subQueryRoot.get("id"), employeeId))
-				//.where(criteriaBuilder.equal(logBookEntryJoin.get("employee").get("id"), employeeId))
+				.where(criteriaBuilder.equal(logBookEntryJoin.get("employee").get("id"), employeeId))
 				.groupBy(issueJoin.get("state"), issueJoin.get("id"), issueJoin.get("estimatedTime"));
 
 		List<Triple<Issue.IssueState, Double, Double>> issueTimes = new ArrayList<>();
@@ -241,6 +241,7 @@ public class IssueDaoJpa implements IssueDao {
 						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime"))
 				)
 				.where(criteriaBuilder.equal(root.get("id"), employeeId))
+				.where(criteriaBuilder.equal(logBookEntryJoin.get("employee").get("id"), employeeId))
 				.groupBy(issueJoin.get("state"));
 
 		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery);
