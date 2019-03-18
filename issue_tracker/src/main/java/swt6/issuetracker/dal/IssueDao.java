@@ -31,8 +31,10 @@ public interface IssueDao {
 			long projectId
 	);
 
-	List<Triple<Issue.IssueState, Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
+	Map<Issue.IssueState, Pair<Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
 			DalTransaction transaction,
 			long employeeId
 	);
+
+	Map<ProjectPhase, Double> calculateWorkingTimePerProjectPhase(DalTransaction transaction, Project project);
 }

@@ -115,26 +115,15 @@ public class AdvancedDaoQueriesTest {
 					.findFirst()
 					.orElseThrow();
 
-			List<Pair<ProjectPhase, Double>> workingTime =
-					projectDao.calculateWorkingTimePerProjectPhase(transaction, project);
-			assertNotNull(workingTime);
-			assertEquals(3, workingTime.size());
-			assertEquals(4, getWorkingTimeForProjectPhase(workingTime, ProjectPhase.DESIGN), 0);
-			assertEquals(8.333333333, getWorkingTimeForProjectPhase(workingTime, ProjectPhase.IMPLEMENTATION), 0.01);
-			assertEquals(8, getWorkingTimeForProjectPhase(workingTime, ProjectPhase.TESTING), 0);
+			IssueDao issueDao = new IssueDaoJpa();
+			Map<ProjectPhase, Double> workingTimes =
+					issueDao.calculateWorkingTimePerProjectPhase(transaction, project);
+			assertNotNull(workingTimes);
+			assertEquals(3, workingTimes.size());
+			assertEquals(4, workingTimes.get(ProjectPhase.DESIGN), 0);
+			assertEquals(8.333333333, workingTimes.get(ProjectPhase.IMPLEMENTATION), 0.01);
+			assertEquals(8, workingTimes.get(ProjectPhase.TESTING), 0);
 		});
-	}
-
-	private static Double getWorkingTimeForProjectPhase(
-			List<Pair<ProjectPhase, Double>> workingTime,
-			ProjectPhase projectPhase
-	) {
-		return workingTime
-				.stream()
-				.filter(i -> i.getFirst().equals(projectPhase))
-				.findFirst()
-				.orElseThrow()
-				.getSecond();
 	}
 
 	@Test
@@ -208,19 +197,8 @@ public class AdvancedDaoQueriesTest {
 			);
 			assertNotNull(workingTimes);
 			assertEquals(2, workingTimes.size());
-			assertEquals(1, extractIssueWorkingTime(workingTimes, Issue.IssueState.OPEN).getSecond().longValue());
-			assertEquals(8d, extractIssueWorkingTime(workingTimes, Issue.IssueState.OPEN).getThird(), 0);
+			assertEquals(1, workingTimes.get(Issue.IssueState.OPEN).getFirst().longValue());
+			assertEquals(8d, workingTimes.get(Issue.IssueState.OPEN).getSecond(), 0);
 		});
-	}
-
-	private static Triple<Issue.IssueState, Long, Double> extractIssueWorkingTime(
-			List<Triple<Issue.IssueState, Long, Double>> workingTimes,
-			Issue.IssueState issueState
-	) {
-		return workingTimes
-				.stream()
-				.filter(entry -> entry.getFirst().equals(issueState))
-				.findFirst()
-				.orElseThrow();
 	}
 }

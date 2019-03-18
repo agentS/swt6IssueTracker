@@ -15,6 +15,4 @@ public interface ProjectDao {
 
 	void assignEmployeeToProject(DalTransaction transaction, Employee employee, Project project);
 	void dismissEmployeeFromProject(DalTransaction transaction, Employee employee, Project project);
-
-	List<Pair<ProjectPhase, Double>> calculateWorkingTimePerProjectPhase(DalTransaction transaction, Project project);
 }

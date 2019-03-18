@@ -223,7 +223,7 @@ public class IssueDaoJpa implements IssueDao {
 	}
 
 	@Override
-	public List<Triple<Issue.IssueState, Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
+	public Map<Issue.IssueState, Pair<Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
 			DalTransaction transaction,
 			long employeeId
 	) {
@@ -245,11 +245,58 @@ public class IssueDaoJpa implements IssueDao {
 
 		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery);
 		return query.getResultStream()
-				.map(row -> new Triple<>(
+				.map(row -> new Pair<>(
 						((Issue.IssueState) row[0]),
-						((Long) row[1]),
-						((Double) row[2])
+						new Pair<>(
+								((Long) row[1]),
+								((Double) row[2])
+						)
 				))
-				.collect(Collectors.toList());
+				.collect(Collectors.toMap(
+						Pair::getFirst,
+						Pair::getSecond
+				));
+	}
+
+	@Override
+	public Map<ProjectPhase, Double> calculateWorkingTimePerProjectPhase(DalTransaction transaction, Project project) {
+		EntityManager entityManager = DaoUtilJpa.getEntityManager(transaction);
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+		var criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+		Root<Project> root = criteriaQuery.from(Project.class);
+		ParameterExpression<Long> projectIdParameter = criteriaBuilder.parameter(Long.class, "projectId");
+		Join<Project, Issue> issueJoin = root.join("issues");
+		Join<Issue, LogBookEntry> logBookEntryJoin = issueJoin.join("logBookEntries");
+		criteriaQuery
+				.multiselect(
+						logBookEntryJoin.get("projectPhase"),
+						criteriaBuilder.sumAsDouble(issueJoin.get("estimatedTime"))
+						/*
+						criteriaBuilder.sum(
+								// watch the idiots discussing: https://stackoverflow.com/questions/22412234/using-timestampdiff-with-jpa-criteria-query-and-hibernate-as-the-provider
+								criteriaBuilder.function(
+										"TIMESTAMPDIFF",
+										Double.class,
+										criteriaBuilder.literal("SQL_TSI_HOUR"),
+										logBookEntryJoin.get("startTime"),
+										logBookEntryJoin.get("endTime")
+								)
+						)*/
+				)
+				.where(criteriaBuilder.equal(root.get("id"), projectIdParameter))
+				.groupBy(logBookEntryJoin.get("projectPhase"));
+
+		TypedQuery<Object[]> query = entityManager.createQuery(criteriaQuery);
+		query.setParameter("projectId", project.getId());
+		return query.getResultStream()
+				.map(row -> new Pair<>(
+						((ProjectPhase) row[0]),
+						((Double) row[1])
+				))
+				.collect(Collectors.toMap(
+						Pair::getFirst,
+						Pair::getSecond
+				));
 	}
 }
