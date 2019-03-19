@@ -68,6 +68,14 @@ public final class UserCommandSelector {
 				return new ReassignLogBookEntryToIssueCommand();
 			case "reassignLogBookEntryToEmployee":
 				return new ReassignLogBookEntryToEmployeeCommand();
+			case "calculateWorkingTimeAndEstimatedTimeByEmployee":
+				return new CalculateWorkingTimeAndEstimatedTimeByEmployeeCommand();
+			case "calculateWorkingTimeAndEstimatedTimeByProject":
+				return new CalculateWorkingTimeAndEstimatedTimeByProjectCommand();
+			case "calculateWorkingTimeByEmployee":
+				return new CalculateWorkingTimeByEmployeeCommand();
+			case "calculateWorkingTimePerProjectPhase":
+				return new CalculateWorkingTimePerProjectPhase();
 			default:
 				throw new IllegalArgumentException("Command " + enteredCommand + " is unknown!");
 		}

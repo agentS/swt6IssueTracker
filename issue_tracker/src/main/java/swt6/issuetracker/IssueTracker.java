@@ -16,7 +16,8 @@ public class IssueTracker {
 			"listIssuesOfProject, listIssuesOfEmployee, addIssue, assignIssueToEmployee, deleteIssue, " +
 			"updateIssueProgress, updateIssueEstimatedTime, updateIssueState, updateIssuePriority" +
 			"findLogBookEntryById, listLogBookEntriesOfIssue, listLogBookEntriesOfEmployee, " +
-			"addLogBookEntry, removeLogBookEntry, reassignLogBookEntryToIssue, reassignLogBookEntryToEmployee";
+			"addLogBookEntry, removeLogBookEntry, reassignLogBookEntryToIssue, reassignLogBookEntryToEmployee, " +
+			"calculateWorkingTimeAndEstimatedTimeByEmployee, calculateWorkingTimeAndEstimatedTimeByProject, calculateWorkingTimeByEmployee, calculateWorkingTimePerProjectPhase";
 
 	public static void main(String[] args) {
 		DaoFactory daoFactory = new DaoFactoryJpa(JpaUtil.getEntityManagerFactory());

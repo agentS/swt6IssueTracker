@@ -140,7 +140,7 @@ public class AdvancedDaoQueriesTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Map<Issue.IssueState, Pair<Double, Double>> issueTimes = issueDao.calculateWorkingTimeAndEstimatedTimeByEmployeeIdGroupByIssueState(
+			Map<Issue.IssueState, Pair<Double, Double>> issueTimes = issueDao.calculateWorkingTimeAndEstimatedTimeByEmployeeGroupByIssueState(
 					transaction,
 					employee
 			);
@@ -164,7 +164,7 @@ public class AdvancedDaoQueriesTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			Map<Issue.IssueState, Pair<Double, Double>> issueTimes = issueDao.calculateWorkingTimeAndEstimatedTimeByProjectIdGroupByIssueState(
+			Map<Issue.IssueState, Pair<Double, Double>> issueTimes = issueDao.calculateWorkingTimeAndEstimatedTimeByProjectGroupByIssueState(
 					transaction,
 					project
 			);
@@ -190,7 +190,7 @@ public class AdvancedDaoQueriesTest {
 					.orElseThrow();
 
 			IssueDao issueDao = new IssueDaoJpa();
-			var workingTimes = issueDao.calculateWorkingTimeByEmployeeIdGroupedByIssueState(
+			var workingTimes = issueDao.calculateWorkingTimeByEmployeeGroupedByIssueState(
 					transaction,
 					employee
 			);

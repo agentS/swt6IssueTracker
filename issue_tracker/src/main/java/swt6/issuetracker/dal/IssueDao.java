@@ -21,17 +21,17 @@ public interface IssueDao {
 	Issue updateEstimatedTime(DalTransaction transaction, Issue issue, double newEstimatedTime);
 	void delete(DalTransaction transaction, Issue issue);
 
-	Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByEmployeeIdGroupByIssueState(
+	Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByEmployeeGroupByIssueState(
 			DalTransaction transaction,
 			Employee employee
 	);
 
-	Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByProjectIdGroupByIssueState(
+	Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByProjectGroupByIssueState(
 			DalTransaction transaction,
 			Project project
 	);
 
-	Map<Issue.IssueState, Pair<Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
+	Map<Issue.IssueState, Pair<Long, Double>> calculateWorkingTimeByEmployeeGroupedByIssueState(
 			DalTransaction transaction,
 			Employee employee
 	);

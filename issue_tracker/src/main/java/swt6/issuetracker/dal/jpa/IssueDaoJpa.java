@@ -152,7 +152,7 @@ public class IssueDaoJpa implements IssueDao {
 	}
 
 	@Override
-	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByEmployeeIdGroupByIssueState(
+	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByEmployeeGroupByIssueState(
 			DalTransaction transaction,
 			Employee employee
 	) {
@@ -208,7 +208,7 @@ public class IssueDaoJpa implements IssueDao {
 	}
 
 	@Override
-	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByProjectIdGroupByIssueState(
+	public Map<Issue.IssueState, Pair<Double, Double>> calculateWorkingTimeAndEstimatedTimeByProjectGroupByIssueState(
 			DalTransaction transaction,
 			Project project
 	) {
@@ -245,7 +245,7 @@ public class IssueDaoJpa implements IssueDao {
 	}
 
 	@Override
-	public Map<Issue.IssueState, Pair<Long, Double>> calculateWorkingTimeByEmployeeIdGroupedByIssueState(
+	public Map<Issue.IssueState, Pair<Long, Double>> calculateWorkingTimeByEmployeeGroupedByIssueState(
 			DalTransaction transaction,
 			Employee employee
 	) {
