@@ -171,7 +171,7 @@ public final class Issue {
 		return this.logBookEntries;
 	}
 
-	public void setLogBookEntries(Set<LogBookEntry> logBookEntries) {
+	private void setLogBookEntries(Set<LogBookEntry> logBookEntries) {
 		this.logBookEntries = logBookEntries;
 	}
 

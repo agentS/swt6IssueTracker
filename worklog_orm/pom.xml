@@ -11,5 +11,9 @@
 
     <artifactId>worklog_orm</artifactId>
 
-
+    <properties>
+        <compiler-plugin.version>3.8.0</compiler-plugin.version>
+        <processor-plugin.version>3.3.3</processor-plugin.version>
+        <annotations-api.version>1.3.2</annotations-api.version>
+    </properties>
 </project>

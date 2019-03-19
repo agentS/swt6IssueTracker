@@ -110,7 +110,7 @@ public final class Employee {
 		return this.projects;
 	}
 
-	public void setProjects(Set<Project> projects) {
+	private void setProjects(Set<Project> projects) {
 		this.projects = projects;
 	}
 
@@ -128,7 +128,7 @@ public final class Employee {
 		return this.issues;
 	}
 
-	public void setIssues(Set<Issue> issues) {
+	private void setIssues(Set<Issue> issues) {
 		this.issues = issues;
 	}
 

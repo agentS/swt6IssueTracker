@@ -1,5 +1,8 @@
 package swt6.orm.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -7,6 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "EMPLOYEE_TYPE", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("E")
 public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
@@ -36,8 +42,18 @@ public class Employee {
 	private Address address;*/
 
 	// mappedBy defines the data component of the other side that references to this side
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+	//  FetchMode.JOIN      FetchType.EAGER   1 join, eager fetch
+	//  FetchMode.SELECT    FetchType.EAGER   2 selects, eager fetch
+	//  FetchMode.SELECT    FetchType.LAZY    2 selects, lazy fetch
+	//  FetchMode.JOIN      FetchType.LAZY    contradictory
+	// OneToMany: default fetch strategy: LAZY
+	// ManyToOne: default fetch strategy: EAGER JOIN
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
 	private Set<LogbookEntry> logbookEntries = new HashSet<>();
+
+	@ManyToMany(mappedBy = "members", cascade = CascadeType.ALL)
+	private Set<Project> projects = new HashSet<>();
 
 	// classes persisted with Hibernate must have a default constructor
 	public Employee() {
@@ -119,6 +135,30 @@ public class Employee {
 		// TODO
 	}
 
+	public Set<Project> getProjects() {
+		return this.projects;
+	}
+
+	private void setProjects(Set<Project> projects) {
+		this.projects = projects;
+	}
+
+	public void assignProject(Project project) {
+		if (project == null) {
+			throw new IllegalArgumentException("Project must not be null.");
+		}
+		this.getProjects().add(project);
+		project.addMember(this);
+	}
+
+	public void removeProject(Project project) {
+		if (project == null) {
+			throw new IllegalArgumentException("Project must not be null.");
+		}
+		this.getProjects().remove(project);
+		project.removeMember(this);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder outputBuilder = new StringBuilder();
@@ -128,13 +168,6 @@ public class Employee {
 				.append(", firstName='").append(this.firstName).append("\'")
 				.append(", lastName='").append(this.lastName).append('\'')
 				.append(", dateOfBirth=").append(this.dateOfBirth.format(DateTimeFormatter.ISO_DATE));
-
-		if (this.getAddress() != null) {
-			outputBuilder.append(", ")
-				.append(this.getAddress());
-		}
-		outputBuilder.append('\n');
-
 		return outputBuilder.toString();
 	}
 }
