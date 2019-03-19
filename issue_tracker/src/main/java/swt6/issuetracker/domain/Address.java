@@ -1,10 +1,14 @@
 package swt6.issuetracker.domain;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @IdClass(AddressId.class)
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public final class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 

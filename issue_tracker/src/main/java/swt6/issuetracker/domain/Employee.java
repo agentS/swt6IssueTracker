@@ -1,5 +1,6 @@
 package swt6.issuetracker.domain;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -10,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public final class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +38,7 @@ public final class Employee {
 			inverseJoinColumns = {@JoinColumn(name = "projectId")}
 	)
 	@Fetch(FetchMode.SELECT)
+	@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Project> projects = new HashSet<>();
 
 	@OneToMany(mappedBy = "employee", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)

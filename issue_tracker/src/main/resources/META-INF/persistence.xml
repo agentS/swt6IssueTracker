@@ -8,6 +8,8 @@
         <!-- The provider only needs to be set if you use several JPA providers -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+        <shared-cache-mode>ALL</shared-cache-mode>
+
         <properties>
             <!-- Scan for annotated classes. The specification demands
                  only requires managed providers to implement this feature.
@@ -24,6 +26,19 @@
             <property name="hibernate.hbm2ddl.auto" value="update" />
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.format_sql" value="false" />
+
+            <!-- secondary cache -->
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            <!-- use for Redis cache
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.redis.hibernate52.SingletonRedisRegionFactory"/>
+            <property name="hibernate.cache.region_prefix" value="hibernate"/>
+            <property name="redisson-config" value="redisson.yml"/>
+            -->
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+            <property name="hibernate.cache.use_structured_entries" value="true"/>
+            <property name="hibernate.generate_statistics" value="true"/>
+
         </properties>
     </persistence-unit>
 
@@ -46,6 +61,13 @@
             <property name="hibernate.hbm2ddl.auto" value="create-drop" />
             <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.format_sql" value="false" />
+
+            <!-- secondary cache -->
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+            <property name="hibernate.cache.use_structured_entries" value="true"/>
+            <property name="hibernate.generate_statistics" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

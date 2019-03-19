@@ -36,6 +36,8 @@ public final class UserCommandSelector {
 				return new AssignEmployeeToProjectCommand();
 			case "dismissEmployeeFromProject":
 				return new DismissEmployeeFromProjectCommand();
+			case "findIssueById":
+				return new FindIssueByIdCommand();
 			case "listIssuesOfProject":
 				return new ListIssuesOfProjectCommand();
 			case "listIssuesOfEmployee":

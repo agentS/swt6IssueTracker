@@ -1,5 +1,6 @@
 package swt6.issuetracker.domain;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -8,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public final class Issue {
 	public enum IssueState {
 		NEW, OPEN, RESOLVED, CLOSED, REJECTED

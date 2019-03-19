@@ -13,7 +13,7 @@ public class IssueTracker {
 			"commit, rollback, listEmployees, findEmployeeById, addEmployee, deleteEmployee, updateEmployeeLastName, updateEmployeeAddress, " +
 			"listProjects, findProjectById, addProject, updateProjectName, deleteProject, " +
 			"assignEmployeeToProject, dismissEmployeeFromProject, " +
-			"listIssuesOfProject, listIssuesOfEmployee, addIssue, assignIssueToEmployee, deleteIssue, " +
+			"findIssueById, listIssuesOfProject, listIssuesOfEmployee, addIssue, assignIssueToEmployee, deleteIssue, " +
 			"updateIssueProgress, updateIssueEstimatedTime, updateIssueState, updateIssuePriority" +
 			"findLogBookEntryById, listLogBookEntriesOfIssue, listLogBookEntriesOfEmployee, " +
 			"addLogBookEntry, removeLogBookEntry, reassignLogBookEntryToIssue, reassignLogBookEntryToEmployee, " +
