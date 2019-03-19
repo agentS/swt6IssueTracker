@@ -16,8 +16,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-import static org.hibernate.testing.transaction.TransactionUtil.*;
+import static org.hibernate.testing.transaction.TransactionUtil.doInJPA;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class AdvancedDaoQueriesTest {
 	@BeforeClass
@@ -93,7 +94,7 @@ public class AdvancedDaoQueriesTest {
 			LogBookEntry logBookEntryD = new LogBookEntry(
 					"Clog the instruments",
 					LocalDateTime.of(1994, 2, 25, 3, 0),
-					LocalDateTime.of(1994, 2, 25, 3, 5),
+					LocalDateTime.of(1994, 2, 25, 3, 30),
 					ProjectPhase.IMPLEMENTATION
 			);
 			logBookEntryD.attachEmployee(employeeB);
@@ -120,7 +121,7 @@ public class AdvancedDaoQueriesTest {
 			assertNotNull(workingTimes);
 			assertEquals(3, workingTimes.size());
 			assertEquals(4, workingTimes.get(ProjectPhase.DESIGN), 0);
-			assertEquals(8.333333333, workingTimes.get(ProjectPhase.IMPLEMENTATION), 0.01);
+			assertEquals(8.5, workingTimes.get(ProjectPhase.IMPLEMENTATION), 0.01);
 			assertEquals(8, workingTimes.get(ProjectPhase.TESTING), 0);
 		});
 	}

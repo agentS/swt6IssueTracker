@@ -1,5 +1,8 @@
 package swt6.issuetracker.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,15 +40,20 @@ public final class Issue {
 	@Column(nullable = false)
 	private IssuePriority priority;
 
-	@ManyToOne(optional = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@ManyToOne(optional = true, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "employeeId")
+	@Fetch(FetchMode.SELECT)
 	private Employee employee;
 
-	@ManyToOne(optional = false, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@ManyToOne(optional = false, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "projectId")
+	@Fetch(FetchMode.SELECT)
 	private Project project;
 
-	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
+	// when querying an issue, we are always interested in the log book entries associated with the issue, therefore those entries are fetched eagerly
+	// possible examples are calculating the total time spent on an issue and compring it to the time estimated for that issue
+	@OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	private Set<LogBookEntry> logBookEntries = new HashSet<>();
 
 	public Issue() {

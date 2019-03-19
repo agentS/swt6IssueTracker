@@ -167,7 +167,39 @@ public class IssueDaoJpa implements IssueDao {
 		criteriaQuery
 				.multiselect(
 						issueJoin.get(Issue_.state),
-						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME)),
+						criteriaBuilder.quot(criteriaBuilder.sum(
+								criteriaBuilder.sum(
+										criteriaBuilder.prod(
+												criteriaBuilder.diff(
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														),
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.startTime)
+														)
+												),
+												criteriaBuilder.literal(60)
+										),
+										criteriaBuilder.diff(
+												criteriaBuilder.toFloat(
+														criteriaBuilder.function(
+																"MINUTE",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														)
+												),
+												criteriaBuilder.function(
+														"MINUTE",
+														Double.class,
+														logBookEntryJoin.get(LogBookEntry_.startTime)
+												)
+										)
+								)
+						), criteriaBuilder.literal(60d)),
 						issueJoin.get(Issue_.estimatedTime)
 				)
 				.where(criteriaBuilder.equal(root.get(Employee_.id), employeeParameter))
@@ -223,7 +255,39 @@ public class IssueDaoJpa implements IssueDao {
 		criteriaQuery
 				.multiselect(
 						issueJoin.get(Issue_.state),
-						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME)),
+						criteriaBuilder.quot(criteriaBuilder.sum(
+								criteriaBuilder.sum(
+										criteriaBuilder.prod(
+												criteriaBuilder.diff(
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														),
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.startTime)
+														)
+												),
+												criteriaBuilder.literal(60)
+										),
+										criteriaBuilder.diff(
+												criteriaBuilder.toFloat(
+														criteriaBuilder.function(
+																"MINUTE",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														)
+												),
+												criteriaBuilder.function(
+														"MINUTE",
+														Double.class,
+														logBookEntryJoin.get(LogBookEntry_.startTime)
+												)
+										)
+								)
+						), criteriaBuilder.literal(60d)),
 						issueJoin.get(Issue_.ESTIMATED_TIME)
 				)
 				.where(criteriaBuilder.equal(root, projectParameter))
@@ -236,8 +300,8 @@ public class IssueDaoJpa implements IssueDao {
 		for (Object[] row : query.getResultList()) {
 			issueTimes.add(new Triple<>(
 					((Issue.IssueState) row[0]),
-					((Double) row[2]),
-					((Double) row[1])
+					((Double) row[1]),
+					((Double) row[2])
 			));
 		}
 		// subqueries in from clauses are not supported by JPA: https://stackoverflow.com/questions/7269010/jpa-hibernate-subquery-in-from-clause
@@ -261,7 +325,40 @@ public class IssueDaoJpa implements IssueDao {
 				.multiselect(
 						issueJoin.get(Issue_.state),
 						criteriaBuilder.count(issueJoin.get(Issue_.id)),
-						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME))
+						criteriaBuilder.quot(criteriaBuilder.sum(
+								criteriaBuilder.sum(
+										criteriaBuilder.prod(
+												criteriaBuilder.diff(
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														),
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.startTime)
+														)
+												),
+												criteriaBuilder.literal(60)
+										),
+										criteriaBuilder.diff(
+												criteriaBuilder.toFloat(
+														criteriaBuilder.function(
+																"MINUTE",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														)
+												),
+												criteriaBuilder.function(
+														"MINUTE",
+														Double.class,
+														logBookEntryJoin.get(LogBookEntry_.startTime)
+												)
+										)
+								)
+
+						), criteriaBuilder.literal(60d))
 				)
 				.where(criteriaBuilder.equal(root, employeeParameter))
 				.where(criteriaBuilder.equal(logBookEntryJoin.get(LogBookEntry_.employee), employeeParameter))
@@ -296,18 +393,40 @@ public class IssueDaoJpa implements IssueDao {
 		criteriaQuery
 				.multiselect(
 						logBookEntryJoin.get(LogBookEntry_.projectPhase),
-						criteriaBuilder.sumAsDouble(issueJoin.get(Issue_.ESTIMATED_TIME))
-						/*
-						criteriaBuilder.sum(
-								// watch the idiots discussing: https://stackoverflow.com/questions/22412234/using-timestampdiff-with-jpa-criteria-query-and-hibernate-as-the-provider
-								criteriaBuilder.function(
-										"TIMESTAMPDIFF",
-										Double.class,
-										criteriaBuilder.literal("SQL_TSI_HOUR"),
-										logBookEntryJoin.get("startTime"),
-										logBookEntryJoin.get("endTime")
+						criteriaBuilder.quot(criteriaBuilder.sum(
+								criteriaBuilder.sum(
+										criteriaBuilder.prod(
+												criteriaBuilder.diff(
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														),
+														criteriaBuilder.function(
+																"HOUR",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.startTime)
+														)
+												),
+												criteriaBuilder.literal(60)
+										),
+										criteriaBuilder.diff(
+												criteriaBuilder.toFloat(
+														criteriaBuilder.function(
+																"MINUTE",
+																Double.class,
+																logBookEntryJoin.get(LogBookEntry_.endTime)
+														)
+												),
+												criteriaBuilder.function(
+														"MINUTE",
+														Double.class,
+														logBookEntryJoin.get(LogBookEntry_.startTime)
+												)
+										)
 								)
-						)*/
+
+						), criteriaBuilder.literal(60d))
 				)
 				.where(criteriaBuilder.equal(root, projectParameter))
 				.groupBy(logBookEntryJoin.get(LogBookEntry_.projectPhase));

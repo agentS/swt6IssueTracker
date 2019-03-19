@@ -1,5 +1,8 @@
 package swt6.issuetracker.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,18 +24,21 @@ public final class Employee {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
-	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.JOIN)
 	private Address address;
 
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "ProjectEmployee",
 			joinColumns = {@JoinColumn(name = "employeeId")},
 			inverseJoinColumns = {@JoinColumn(name = "projectId")}
 	)
+	@Fetch(FetchMode.SELECT)
 	private Set<Project> projects = new HashSet<>();
 
-	@OneToMany(mappedBy = "employee", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToMany(mappedBy = "employee", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
 	private Set<Issue> issues = new HashSet<>();
 
 	// classes persisted with Hibernate must have a default constructor

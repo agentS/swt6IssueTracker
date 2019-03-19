@@ -1,5 +1,8 @@
 package swt6.issuetracker.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,10 +16,12 @@ public final class Project {
 	@Column(nullable = false)
 	private String name;
 
-	@ManyToMany(mappedBy = "projects", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@ManyToMany(mappedBy = "projects", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
 	private Set<Employee> employees = new HashSet<>();
 
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@Fetch(FetchMode.SELECT)
 	private Set<Issue> issues = new HashSet<>();
 
 	public Project() {

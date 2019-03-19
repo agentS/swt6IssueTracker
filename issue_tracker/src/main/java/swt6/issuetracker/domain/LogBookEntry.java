@@ -1,5 +1,8 @@
 package swt6.issuetracker.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,11 +26,14 @@ public final class LogBookEntry {
 	@Column(nullable = false)
 	private ProjectPhase projectPhase;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "employeeId")
+	@Fetch(FetchMode.SELECT)
 	private Employee employee;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "issueId")
+	@Fetch(FetchMode.JOIN)
 	private Issue issue;
 
 	public LogBookEntry() {
