@@ -9,6 +9,14 @@ import swt6.issuetracker.ui.command.UserCommandSelector;
 import swt6.util.JpaUtil;
 
 public class IssueTracker {
+	private static final String APPLICATION_TITLE =
+			"  ___________      _____________________ .___                              ___________                     __                 \n" +
+					" /   _____/  \\    /  \\__    ___/  _____/ |   | ______ ________ __   ____   \\__    ___/___________    ____ |  | __ ___________ \n" +
+					" \\_____  \\\\   \\/\\/   / |    | /   __  \\  |   |/  ___//  ___/  |  \\_/ __ \\    |    |  \\_  __ \\__  \\ _/ ___\\|  |/ // __ \\_  __ \\\n" +
+					" /        \\\\        /  |    | \\  |__\\  \\ |   |\\___ \\ \\___ \\|  |  /\\  ___/    |    |   |  | \\// __ \\\\  \\___|    <\\  ___/|  | \\/\n" +
+					"/_______  / \\__/\\  /   |____|  \\_____  / |___/____  >____  >____/  \\___  >   |____|   |__|  (____  /\\___  >__|_ \\\\___  >__|   \n" +
+					"        \\/       \\/                  \\/           \\/     \\/            \\/                        \\/     \\/     \\/    \\/       ";
+
 	private static final String AVAILABLE_COMMANDS = "Commands: (q)uit, " +
 			"commit, rollback, listEmployees, findEmployeeById, addEmployee, deleteEmployee, updateEmployeeLastName, updateEmployeeAddress, " +
 			"listProjects, findProjectById, addProject, updateProjectName, deleteProject, " +
@@ -24,6 +32,7 @@ public class IssueTracker {
 		DalTransaction transaction = daoFactory.createTransaction();
 		transaction.begin();
 
+		System.out.println(APPLICATION_TITLE);
 		System.out.println(AVAILABLE_COMMANDS);
 		String enteredCommand = CommandLineReader.getInstance().promptFor("");
 		try {
